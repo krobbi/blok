@@ -1,0 +1,19 @@
+[package]
+name = "blok"
+authors = ["Chris Roberts"]
+version = "0.1.0"
+edition = "2021"
+description = "A falling-block action puzzle game."
+repository = "https://github.com/krobbi/blok"
+license-file = "LICENSE.txt"
+categories = ["games"]
+publish = false
+
+[dependencies]
+
+[profile.release]
+codegen-units = 1
+lto = "fat"
+opt-level = 3
+panic = "abort"
+strip = "symbols"
