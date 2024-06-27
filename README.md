@@ -18,7 +18,8 @@ The game is being implemented and is not yet in a playable state.
 
 # Dependencies
 Blok uses the following libraries:
-* [minifb](https://crates.io/crates/minifb) - Window management.
+* [minifb](https://crates.io/crates/minifb) - Window management and frame
+buffer rendering.
 
 # License
 Blok is released under a custom, non-commercial license. See
