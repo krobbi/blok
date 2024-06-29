@@ -34,7 +34,7 @@ impl Engine {
         )
         .unwrap_or_else(|e| panic!("{e}"));
 
-        let buffer = vec![0; Self::WIDTH * Self::HEIGHT];
+        let buffer = vec![0x2e_26_4d; Self::WIDTH * Self::HEIGHT];
         let tileset = tileset::new();
 
         Engine {
@@ -50,8 +50,6 @@ impl Engine {
     }
 
     /// Draw a tile.
-    // TODO: Use tile drawing method and remove annotation.
-    #[allow(dead_code)]
     pub fn draw_tile(&mut self, tile: usize, x: usize, y: usize) {
         const TILE_SIZE: usize = tileset::TILE_SIZE as usize;
         const TILES_ACROSS: usize = Engine::WIDTH / TILE_SIZE;
