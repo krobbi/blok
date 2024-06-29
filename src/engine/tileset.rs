@@ -1,7 +1,7 @@
 use image::{ImageFormat, Rgb, RgbImage};
 
 /// The width or height of a tile in pixels.
-const TILE_SIZE: u32 = 8;
+pub const TILE_SIZE: u32 = 8;
 
 /// The tileset image in PNG format.
 static PNG_IMAGE: &[u8] = include_bytes!("../../res/tileset.png");
