@@ -1,3 +1,5 @@
+mod tileset;
+
 use minifb::{Scale, Window, WindowOptions};
 
 /// A game engine.
@@ -7,6 +9,11 @@ pub struct Engine {
 
     /// The frame buffer.
     buffer: Vec<u32>,
+
+    /// The tileset buffer.
+    // TODO: Use tileset and remove annotation.
+    #[allow(dead_code)]
+    tileset: Vec<u32>,
 }
 
 impl Engine {
@@ -30,7 +37,13 @@ impl Engine {
         .unwrap_or_else(|e| panic!("{e}"));
 
         let buffer = vec![0; Self::WIDTH * Self::HEIGHT];
-        Engine { window, buffer }
+        let tileset = tileset::new();
+
+        Engine {
+            window,
+            buffer,
+            tileset,
+        }
     }
 
     /// Get whether the window is open.

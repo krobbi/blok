@@ -10,6 +10,7 @@ categories = ["games"]
 publish = false
 
 [dependencies]
+image = { version = "0.25.1", default-features = false, features = ["png"] }
 minifb = "0.27.0"
 
 [profile.release]

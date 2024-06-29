@@ -5,7 +5,8 @@ __Do not distribute binaries of Blok or use Blok for commercial purposes.__
 # Contents
 1. [About](#about)
 2. [Dependencies](#dependencies)
-3. [License](#license)
+3. [Credits](#credits)
+4. [License](#license)
 
 # About
 Blok is an action puzzle game where pieces made of multiple blocks fall onto a
@@ -18,8 +19,13 @@ The game is being implemented and is not yet in a playable state.
 
 # Dependencies
 Blok uses the following libraries:
+* [image](https://crates.io/crates/image) - PNG image decoding.
 * [minifb](https://crates.io/crates/minifb) - Window management and frame
 buffer rendering.
+
+# Credits
+Blok uses the color palette
+[Faraway48](https://lospec.com/palette-list/faraway48) by Igor Ferreira.
 
 # License
 Blok is released under a custom, non-commercial license. See
