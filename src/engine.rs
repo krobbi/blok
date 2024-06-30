@@ -49,6 +49,29 @@ impl Engine {
         self.window.is_open()
     }
 
+    /// Draw a border around a rectangle.
+    pub fn draw_border(&mut self, x: usize, y: usize, width: usize, height: usize) {
+        let left_x = x - 1;
+        let right_x = x + width;
+        let top_y = y - 1;
+        let bottom_y = y + height;
+
+        self.draw_tile(tileset::TOP_LEFT_BORDER_TILE, left_x, top_y);
+        self.draw_tile(tileset::TOP_RIGHT_BORDER_TILE, right_x, top_y);
+        self.draw_tile(tileset::BOTTOM_LEFT_BORDER_TILE, left_x, bottom_y);
+        self.draw_tile(tileset::BOTTOM_RIGHT_BORDER_TILE, right_x, bottom_y);
+
+        for x in x..right_x {
+            self.draw_tile(tileset::TOP_BORDER_TILE, x, top_y);
+            self.draw_tile(tileset::BOTTOM_BORDER_TILE, x, bottom_y);
+        }
+
+        for y in y..bottom_y {
+            self.draw_tile(tileset::LEFT_BORDER_TILE, left_x, y);
+            self.draw_tile(tileset::RIGHT_BORDER_TILE, right_x, y);
+        }
+    }
+
     /// Draw a tile.
     pub fn draw_tile(&mut self, tile: usize, x: usize, y: usize) {
         const TILE_SIZE: usize = tileset::TILE_SIZE as usize;
