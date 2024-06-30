@@ -1,37 +1,61 @@
 use image::{ImageFormat, Rgb, RgbImage};
 
-/// The width or height of a tile in pixels.
-pub const TILE_SIZE: u32 = 8;
+/// The tile for an empty cell.
+pub const CELL_TILE: usize = 0;
+
+/// The tile for a cyan block.
+pub const CYAN_BLOCK_TILE: usize = 1;
+
+/// The tile for a blue block.
+pub const BLUE_BLOCK_TILE: usize = 2;
+
+/// The tile for an orange block.
+pub const ORANGE_BLOCK_TILE: usize = 3;
+
+/// The tile for a yellow block.
+pub const YELLOW_BLOCK_TILE: usize = 4;
+
+/// The tile for a green block.
+pub const GREEN_BLOCK_TILE: usize = 5;
+
+/// The tile for a purple block.
+pub const PURPLE_BLOCK_TILE: usize = 6;
+
+/// The tile for a red block.
+pub const RED_BLOCK_TILE: usize = 7;
 
 /// The tile for a border's top-left corner.
-pub const TOP_LEFT_BORDER_TILE: usize = 16;
+pub(super) const TOP_LEFT_BORDER_TILE: usize = 16;
 
 /// The tile for a border's top edge.
-pub const TOP_BORDER_TILE: usize = 17;
+pub(super) const TOP_BORDER_TILE: usize = 17;
 
 /// The tile for a border's top-right corner.
-pub const TOP_RIGHT_BORDER_TILE: usize = 18;
+pub(super) const TOP_RIGHT_BORDER_TILE: usize = 18;
 
 /// The tile for a border's left edge.
-pub const LEFT_BORDER_TILE: usize = 19;
+pub(super) const LEFT_BORDER_TILE: usize = 19;
 
 /// The tile for a border's right edge.
-pub const RIGHT_BORDER_TILE: usize = 20;
+pub(super) const RIGHT_BORDER_TILE: usize = 20;
 
 /// The tile for a border's bottom-left corner.
-pub const BOTTOM_LEFT_BORDER_TILE: usize = 21;
+pub(super) const BOTTOM_LEFT_BORDER_TILE: usize = 21;
 
 /// The tile for a border's bottom edge.
-pub const BOTTOM_BORDER_TILE: usize = 22;
+pub(super) const BOTTOM_BORDER_TILE: usize = 22;
 
 /// The tile for a border's bottom-right corner.
-pub const BOTTOM_RIGHT_BORDER_TILE: usize = 23;
+pub(super) const BOTTOM_RIGHT_BORDER_TILE: usize = 23;
+
+/// The width or height of a tile in pixels.
+pub(super) const TILE_SIZE: u32 = 8;
 
 /// The tileset image in PNG format.
 static PNG_IMAGE: &[u8] = include_bytes!("../../res/tileset.png");
 
 /// Create a new tileset buffer.
-pub fn new() -> Vec<u32> {
+pub(super) fn new() -> Vec<u32> {
     let image = image();
     let width = image.width() / TILE_SIZE;
     let height = image.height() / TILE_SIZE;

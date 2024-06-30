@@ -1,4 +1,4 @@
-mod tileset;
+pub mod tileset;
 
 use minifb::{Scale, Window, WindowOptions};
 
@@ -34,7 +34,7 @@ impl Engine {
         )
         .unwrap_or_else(|e| panic!("{e}"));
 
-        let buffer = vec![0x2e_26_4d; Self::WIDTH * Self::HEIGHT];
+        let buffer = vec![0x0d_07_09; Self::WIDTH * Self::HEIGHT];
         let tileset = tileset::new();
 
         Engine {

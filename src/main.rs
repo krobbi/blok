@@ -2,44 +2,67 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod engine;
+mod shape;
 
-use engine::Engine;
+use engine::{tileset, Engine};
+use shape::Shape;
 
-/// Open a window and draw a test scene.
-fn main() {
-    let mut engine = Engine::new();
-    draw_test_scene(&mut engine);
+/// Tests a shape.
+struct ShapeTester {
+    /// The shape.
+    shape: Shape,
 
-    while engine.window_open() {
-        engine.update();
+    /// The X position.
+    x: usize,
+
+    /// The Y position.
+    y: usize,
+}
+
+impl ShapeTester {
+    /// Create a new shape tester from its shape and position.
+    fn new(shape: Shape, x: usize, y: usize) -> Self {
+        Self { shape, x, y }
+    }
+
+    /// Draw the shape tester.
+    fn draw(&self, engine: &mut Engine) {
+        const WIDTH: usize = 4;
+        const HEIGHT: usize = 4;
+
+        let x = self.x;
+        let y = self.y;
+        engine.draw_border(x, y, WIDTH, HEIGHT);
+
+        for x in x..x + WIDTH {
+            for y in y..y + HEIGHT {
+                engine.draw_tile(tileset::CELL_TILE, x, y);
+            }
+        }
+
+        engine.draw_tile(self.shape.block_tile(), x, y);
     }
 }
 
-/// Draw a test scene.
-fn draw_test_scene(engine: &mut Engine) {
-    const X: usize = 3;
-    const Y: usize = 3;
-    const WIDTH: usize = 7;
-    const HEIGHT: usize = 3;
-    const EMPTY_BLOCK_TILE: usize = 0;
-    const CLEAR_TILE: usize = 8;
-    const BLOCK_TILE_BASE: usize = 1;
-    const GHOST_TILE_BASE: usize = 9;
+/// Open a window and draw each shape.
+fn main() {
+    let mut engine = Engine::new();
 
-    for offset in 0..WIDTH {
-        let block_tile = BLOCK_TILE_BASE + offset;
-        let ghost_tile = GHOST_TILE_BASE + offset;
-        let x = X + offset;
-        engine.draw_tile(block_tile, x, Y);
-        engine.draw_tile(EMPTY_BLOCK_TILE, x, Y + 1);
-        engine.draw_tile(ghost_tile, x, Y + 2);
+    let shape_testers = vec![
+        ShapeTester::new(Shape::I, 1, 1),
+        ShapeTester::new(Shape::O, 7, 1),
+        ShapeTester::new(Shape::J, 1, 7),
+        ShapeTester::new(Shape::L, 7, 7),
+        ShapeTester::new(Shape::S, 13, 7),
+        ShapeTester::new(Shape::T, 19, 7),
+        ShapeTester::new(Shape::Z, 25, 7),
+    ];
+
+    while engine.window_open() {
+        for shape_tester in &shape_testers {
+            shape_tester.draw(&mut engine);
+        }
+
+        engine.update();
     }
-
-    engine.draw_border(X, Y, WIDTH, HEIGHT);
-    engine.draw_tile(CLEAR_TILE, X - 1, Y + HEIGHT + 2);
-    engine.draw_border(X + 2, Y + HEIGHT + 3, 0, 0);
-    engine.draw_border(X + 5, Y + HEIGHT + 3, 1, 0);
-    engine.draw_border(X + 2, Y + HEIGHT + 6, 0, 1);
-    engine.draw_border(X + 5, Y + HEIGHT + 6, 1, 1);
-    engine.draw_border(1, 1, 38, 20);
 }
