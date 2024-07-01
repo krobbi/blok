@@ -20,8 +20,8 @@ The game is being implemented and is not yet in a playable state.
 # Dependencies
 Blok uses the following libraries:
 * [image](https://crates.io/crates/image) - PNG image decoding.
-* [minifb](https://crates.io/crates/minifb) - Window management and frame
-buffer rendering.
+* [minifb](https://crates.io/crates/minifb) - Window management, keyboard
+input, and frame buffer rendering.
 
 # Credits
 Blok uses the color palette

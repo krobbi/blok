@@ -1,6 +1,8 @@
 pub mod tileset;
 
-use minifb::{Scale, Window, WindowOptions};
+pub use minifb::Key;
+
+use minifb::{KeyRepeat, Scale, Window, WindowOptions};
 
 /// A game engine.
 pub struct Engine {
@@ -47,6 +49,11 @@ impl Engine {
     /// Get whether the window is open.
     pub fn window_open(&self) -> bool {
         self.window.is_open()
+    }
+
+    /// Get whether a key is pressed.
+    pub fn key_pressed(&self, key: Key) -> bool {
+        self.window.is_key_pressed(key, KeyRepeat::No)
     }
 
     /// Draw a border around a rectangle.

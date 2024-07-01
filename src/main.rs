@@ -5,7 +5,7 @@ mod engine;
 mod piece;
 mod shape;
 
-use engine::{tileset, Engine};
+use engine::{tileset, Engine, Key};
 use piece::Piece;
 use shape::Shape;
 
@@ -78,8 +78,10 @@ fn main() {
     ];
 
     while engine.window_open() {
-        for piece_tester in &mut piece_testers {
-            piece_tester.piece_mut().rotate_clockwise();
+        if engine.key_pressed(Key::Up) {
+            for piece_tester in &mut piece_testers {
+                piece_tester.piece_mut().rotate_clockwise();
+            }
         }
 
         for piece_tester in &piece_testers {
