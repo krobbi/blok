@@ -51,7 +51,7 @@ static BLOCKS: &[Blocks; Shape::COUNT * Facing::COUNT] = &[
 
     // Shape::Z
     [(0, 0), (1, 0), (1, 1), (2, 1)], // Facing::Up
-    [(0, 0), (1, 0), (1, 1), (2, 1)], // Facing::Right
-    [(0, 0), (1, 0), (1, 1), (2, 1)], // Facing::Down
-    [(0, 0), (1, 0), (1, 1), (2, 1)], // Facing::Left
+    [(2, 0), (1, 1), (2, 1), (1, 2)], // Facing::Right
+    [(0, 1), (1, 1), (1, 2), (2, 2)], // Facing::Down
+    [(1, 0), (0, 1), (1, 1), (0, 2)], // Facing::Left
 ];
