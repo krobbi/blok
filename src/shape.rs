@@ -1,6 +1,6 @@
 mod blocks;
 
-use blocks::Blocks;
+pub use blocks::Blocks;
 
 use crate::engine::tileset;
 

@@ -2,15 +2,17 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod engine;
+mod piece;
 mod shape;
 
 use engine::{tileset, Engine};
+use piece::Piece;
 use shape::Shape;
 
-/// Tests a shape.
-struct ShapeTester {
-    /// The shape.
-    shape: Shape,
+/// Tests a piece.
+struct PieceTester {
+    /// The piece.
+    piece: Piece,
 
     /// The X position.
     x: usize,
@@ -19,10 +21,17 @@ struct ShapeTester {
     y: usize,
 }
 
-impl ShapeTester {
+impl PieceTester {
     /// Create a new shape tester from its shape and position.
-    fn new(shape: Shape, x: usize, y: usize) -> Self {
-        Self { shape, x, y }
+    fn new(shape: Shape, x: i8, y: i8) -> Self {
+        let piece = Piece::new(shape, x, y);
+        let (x, y) = Self::cast_position(x, y);
+        Self { piece, x, y }
+    }
+
+    /// Cast a position from signed to unsigned.
+    fn cast_position(x: i8, y: i8) -> (usize, usize) {
+        (usize::try_from(x).unwrap(), usize::try_from(y).unwrap())
     }
 
     /// Draw the shape tester.
@@ -40,11 +49,10 @@ impl ShapeTester {
             }
         }
 
-        let tile = self.shape.block_tile();
+        let tile = self.piece.shape().block_tile();
 
-        for (block_x, block_y) in self.shape.blocks() {
-            let x = x + usize::try_from(block_x).unwrap();
-            let y = y + usize::try_from(block_y).unwrap();
+        for (x, y) in self.piece.blocks() {
+            let (x, y) = Self::cast_position(x, y);
             engine.draw_tile(tile, x, y);
         }
     }
@@ -54,19 +62,19 @@ impl ShapeTester {
 fn main() {
     let mut engine = Engine::new();
 
-    let shape_testers = vec![
-        ShapeTester::new(Shape::I, 1, 1),
-        ShapeTester::new(Shape::O, 7, 1),
-        ShapeTester::new(Shape::J, 1, 7),
-        ShapeTester::new(Shape::L, 7, 7),
-        ShapeTester::new(Shape::S, 13, 7),
-        ShapeTester::new(Shape::T, 19, 7),
-        ShapeTester::new(Shape::Z, 25, 7),
+    let piece_testers = vec![
+        PieceTester::new(Shape::I, 1, 1),
+        PieceTester::new(Shape::O, 7, 1),
+        PieceTester::new(Shape::J, 1, 7),
+        PieceTester::new(Shape::L, 7, 7),
+        PieceTester::new(Shape::S, 13, 7),
+        PieceTester::new(Shape::T, 19, 7),
+        PieceTester::new(Shape::Z, 25, 7),
     ];
 
     while engine.window_open() {
-        for shape_tester in &shape_testers {
-            shape_tester.draw(&mut engine);
+        for piece_tester in &piece_testers {
+            piece_tester.draw(&mut engine);
         }
 
         engine.update();
