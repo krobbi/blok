@@ -19,12 +19,22 @@ impl Facing {
     pub const COUNT: usize = 4;
 
     /// Get the next facing clockwise.
-    pub fn clockwise_facing(self) -> Self {
+    pub(super) fn clockwise_facing(self) -> Self {
         match self {
             Self::Up => Self::Right,
             Self::Right => Self::Down,
             Self::Down => Self::Left,
             Self::Left => Self::Up,
+        }
+    }
+
+    /// Get the next facing counter-clockwise.
+    pub(super) fn counter_clockwise_facing(self) -> Self {
+        match self {
+            Self::Up => Self::Left,
+            Self::Right => Self::Up,
+            Self::Down => Self::Right,
+            Self::Left => Self::Down,
         }
     }
 }

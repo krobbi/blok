@@ -82,6 +82,10 @@ fn main() {
             for piece_tester in &mut piece_testers {
                 piece_tester.piece_mut().rotate_clockwise();
             }
+        } else if engine.key_pressed(Key::Z) {
+            for piece_tester in &mut piece_testers {
+                piece_tester.piece_mut().rotate_counter_clockwise();
+            }
         }
 
         for piece_tester in &piece_testers {

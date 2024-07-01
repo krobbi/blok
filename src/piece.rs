@@ -50,6 +50,11 @@ impl Piece {
         self.rotate_to(self.facing.clockwise_facing());
     }
 
+    /// Rotate the piece counter-clockwise.
+    pub fn rotate_counter_clockwise(&mut self) {
+        self.rotate_to(self.facing.counter_clockwise_facing());
+    }
+
     /// Rotate the piece to a target facing.
     fn rotate_to(&mut self, facing: Facing) {
         self.facing = facing;
