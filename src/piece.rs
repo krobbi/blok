@@ -1,3 +1,7 @@
+mod facing;
+
+pub use facing::Facing;
+
 use crate::shape::{Blocks, Shape};
 
 /// A movable piece.
@@ -5,6 +9,9 @@ use crate::shape::{Blocks, Shape};
 pub struct Piece {
     /// The shape.
     shape: Shape,
+
+    /// The facing.
+    facing: Facing,
 
     /// The X position.
     x: i8,
@@ -16,7 +23,14 @@ pub struct Piece {
 impl Piece {
     /// Create a new piece from its shape and position.
     pub fn new(shape: Shape, x: i8, y: i8) -> Self {
-        Self { shape, x, y }
+        let facing = Facing::Up;
+
+        Self {
+            shape,
+            facing,
+            x,
+            y,
+        }
     }
 
     /// Get the shape.
@@ -26,6 +40,18 @@ impl Piece {
 
     /// Get the blocks.
     pub fn blocks(self) -> Blocks {
-        self.shape.blocks().map(|(x, y)| (x + self.x, y + self.y))
+        self.shape
+            .blocks(self.facing)
+            .map(|(x, y)| (x + self.x, y + self.y))
+    }
+
+    /// Rotate the piece clockwise.
+    pub fn rotate_clockwise(&mut self) {
+        self.rotate_to(self.facing.clockwise_facing());
+    }
+
+    /// Rotate the piece to a target facing.
+    fn rotate_to(&mut self, facing: Facing) {
+        self.facing = facing;
     }
 }

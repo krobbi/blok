@@ -34,6 +34,11 @@ impl PieceTester {
         (usize::try_from(x).unwrap(), usize::try_from(y).unwrap())
     }
 
+    /// Get a mutable reference to the piece.
+    fn piece_mut(&mut self) -> &mut Piece {
+        &mut self.piece
+    }
+
     /// Draw the shape tester.
     fn draw(&self, engine: &mut Engine) {
         const WIDTH: usize = 4;
@@ -62,7 +67,7 @@ impl PieceTester {
 fn main() {
     let mut engine = Engine::new();
 
-    let piece_testers = vec![
+    let mut piece_testers = vec![
         PieceTester::new(Shape::I, 1, 1),
         PieceTester::new(Shape::O, 7, 1),
         PieceTester::new(Shape::J, 1, 7),
@@ -73,6 +78,10 @@ fn main() {
     ];
 
     while engine.window_open() {
+        for piece_tester in &mut piece_testers {
+            piece_tester.piece_mut().rotate_clockwise();
+        }
+
         for piece_tester in &piece_testers {
             piece_tester.draw(&mut engine);
         }

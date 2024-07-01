@@ -2,7 +2,7 @@ mod blocks;
 
 pub use blocks::Blocks;
 
-use crate::engine::tileset;
+use crate::{engine::tileset, piece::Facing};
 
 /// A piece shape.
 #[derive(Clone, Copy)]
@@ -46,8 +46,8 @@ impl Shape {
         }
     }
 
-    /// Get the blocks.
-    pub fn blocks(self) -> Blocks {
-        blocks::new(self)
+    /// Get the blocks with a facing.
+    pub fn blocks(self, facing: Facing) -> Blocks {
+        blocks::new(self, facing)
     }
 }
