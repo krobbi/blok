@@ -40,7 +40,13 @@ impl ShapeTester {
             }
         }
 
-        engine.draw_tile(self.shape.block_tile(), x, y);
+        let tile = self.shape.block_tile();
+
+        for (block_x, block_y) in self.shape.blocks() {
+            let x = x + usize::try_from(block_x).unwrap();
+            let y = y + usize::try_from(block_y).unwrap();
+            engine.draw_tile(tile, x, y);
+        }
     }
 }
 

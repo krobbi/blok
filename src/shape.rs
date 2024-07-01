@@ -1,3 +1,7 @@
+mod blocks;
+
+use blocks::Blocks;
+
 use crate::engine::tileset;
 
 /// A piece shape.
@@ -26,6 +30,9 @@ pub enum Shape {
 }
 
 impl Shape {
+    /// The number of shapes.
+    const COUNT: usize = 7;
+
     /// Get the block tile.
     pub fn block_tile(self) -> usize {
         match self {
@@ -37,5 +44,10 @@ impl Shape {
             Self::T => tileset::PURPLE_BLOCK_TILE,
             Self::Z => tileset::RED_BLOCK_TILE,
         }
+    }
+
+    /// Get the blocks.
+    pub fn blocks(self) -> Blocks {
+        blocks::new(self)
     }
 }
