@@ -6,6 +6,8 @@ use crate::{engine::tileset, piece::Facing};
 
 /// A piece shape.
 #[derive(Clone, Copy)]
+// TODO: Remove this attribute after all shapes are used.
+#[allow(dead_code)]
 pub enum Shape {
     /// An I shape.
     I,

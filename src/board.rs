@@ -1,5 +1,6 @@
 use crate::{
     engine::{tileset, Engine},
+    piece::Piece,
     shape::Shape,
 };
 
@@ -19,18 +20,34 @@ impl Board {
     /// The capacity of a board in cells.
     const CAPACITY: usize = Self::WIDTH * Self::HEIGHT;
 
+    /// The X offset for drawing cells.
+    const DRAW_X: usize = (Engine::TILES_ACROSS - Self::WIDTH) / 2;
+
+    /// The Y offset for drawing cells.
+    const DRAW_Y: usize = (Engine::TILES_DOWN - Self::HEIGHT) / 2;
+
     /// Create a new board.
     pub fn new() -> Self {
         let cells = [None; Self::CAPACITY];
         Self { cells }
     }
 
+    /// Draw a piece relative to a board.
+    pub fn draw_piece(piece: Piece, engine: &mut Engine) {
+        let tile = piece.shape().block_tile();
+
+        for (x, y) in piece.blocks() {
+            if y >= 0 {
+                #[allow(clippy::cast_sign_loss)]
+                let (x, y) = (x as usize + Self::DRAW_X, y as usize + Self::DRAW_Y);
+                engine.draw_tile(tile, x, y);
+            }
+        }
+    }
+
     /// Draw the board.
     pub fn draw(&self, engine: &mut Engine) {
-        const OFFSET_X: usize = (Engine::TILES_ACROSS - Board::WIDTH) / 2;
-        const OFFSET_Y: usize = (Engine::TILES_DOWN - Board::HEIGHT) / 2;
-
-        engine.draw_border(OFFSET_X, OFFSET_Y, Self::WIDTH, Self::HEIGHT);
+        engine.draw_border(Self::DRAW_X, Self::DRAW_Y, Self::WIDTH, Self::HEIGHT);
 
         for y in 0..Self::HEIGHT {
             for x in 0..Self::WIDTH {
@@ -39,7 +56,7 @@ impl Board {
                     Some(shape) => shape.block_tile(),
                 };
 
-                let (x, y) = (x + OFFSET_X, y + OFFSET_Y);
+                let (x, y) = (x + Self::DRAW_X, y + Self::DRAW_Y);
                 engine.draw_tile(tile, x, y);
             }
         }
