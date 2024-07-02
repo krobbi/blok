@@ -28,7 +28,13 @@ impl Board {
 
     /// Create a new board.
     pub fn new() -> Self {
-        let cells = [None; Self::CAPACITY];
+        let mut cells = [None; Self::CAPACITY];
+
+        // Place cells to test collision.
+        // TODO: Remove these lines and make cells immutable.
+        cells[53] = Some(Shape::Z);
+        cells[146] = Some(Shape::S);
+
         Self { cells }
     }
 
@@ -43,6 +49,25 @@ impl Board {
                 engine.draw_tile(tile, x, y);
             }
         }
+    }
+
+    /// Get whether the board can fit a piece with an offset.
+    pub fn fits_piece(&self, piece: Piece, x: i8, y: i8) -> bool {
+        for (base_x, base_y) in piece.blocks() {
+            let (x, y) = (base_x + x, base_y + y);
+
+            #[allow(clippy::cast_possible_truncation)]
+            #[allow(clippy::cast_sign_loss)]
+            if x < 0
+                || x >= Self::WIDTH as i8
+                || y >= Self::HEIGHT as i8
+                || y >= 0 && self.cells[y as usize * Self::WIDTH + x as usize].is_some()
+            {
+                return false;
+            }
+        }
+
+        true
     }
 
     /// Draw the board.

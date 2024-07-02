@@ -19,9 +19,17 @@ fn main() {
 
     while engine.window_open() {
         if engine.key_pressed(Key::Up) {
-            piece.rotate_clockwise();
+            piece.test_move_up(&board);
+        } else if engine.key_pressed(Key::Down) {
+            piece.drop(&board);
+        } else if engine.key_pressed(Key::Left) {
+            piece.move_left(&board);
+        } else if engine.key_pressed(Key::Right) {
+            piece.move_right(&board);
+        } else if engine.key_pressed(Key::X) {
+            piece.rotate_clockwise(&board);
         } else if engine.key_pressed(Key::Z) {
-            piece.rotate_counter_clockwise();
+            piece.rotate_counter_clockwise(&board);
         }
 
         board.draw(&mut engine);
