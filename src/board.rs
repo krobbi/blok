@@ -30,6 +30,8 @@ impl Board {
         const OFFSET_X: usize = (Engine::TILES_ACROSS - Board::WIDTH) / 2;
         const OFFSET_Y: usize = (Engine::TILES_DOWN - Board::HEIGHT) / 2;
 
+        engine.draw_border(OFFSET_X, OFFSET_Y, Self::WIDTH, Self::HEIGHT);
+
         for y in 0..Self::HEIGHT {
             for x in 0..Self::WIDTH {
                 let tile = match self.cells[y * Self::WIDTH + x] {
