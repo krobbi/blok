@@ -27,6 +27,9 @@ impl Board {
 
     /// Draw the board.
     pub fn draw(&self, engine: &mut Engine) {
+        const OFFSET_X: usize = (Engine::TILES_ACROSS - Board::WIDTH) / 2;
+        const OFFSET_Y: usize = (Engine::TILES_DOWN - Board::HEIGHT) / 2;
+
         for y in 0..Self::HEIGHT {
             for x in 0..Self::WIDTH {
                 let tile = match self.cells[y * Self::WIDTH + x] {
@@ -34,6 +37,7 @@ impl Board {
                     Some(shape) => shape.block_tile(),
                 };
 
+                let (x, y) = (x + OFFSET_X, y + OFFSET_Y);
                 engine.draw_tile(tile, x, y);
             }
         }

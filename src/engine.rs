@@ -17,11 +17,20 @@ pub struct Engine {
 }
 
 impl Engine {
+    /// The width of an engine's frame buffer in tiles.
+    pub const TILES_ACROSS: usize = Self::WIDTH / Self::TILE_SIZE;
+
+    /// The height of an engine's frame buffer in tiles.
+    pub const TILES_DOWN: usize = Self::HEIGHT / Self::TILE_SIZE;
+
     /// The width of an engine's frame buffer in pixels.
     const WIDTH: usize = 320;
 
     /// The height of an engine's frame buffer in pixels.
     const HEIGHT: usize = 180;
+
+    /// The width or height of a tile in pixels.
+    const TILE_SIZE: usize = tileset::TILE_SIZE as usize;
 
     /// Create a new engine.
     pub fn new() -> Self {
@@ -81,20 +90,19 @@ impl Engine {
 
     /// Draw a tile.
     pub fn draw_tile(&mut self, tile: usize, x: usize, y: usize) {
-        const TILE_SIZE: usize = tileset::TILE_SIZE as usize;
-        const TILES_ACROSS: usize = Engine::WIDTH / TILE_SIZE;
-        const TILES_DOWN: usize = Engine::HEIGHT / TILE_SIZE;
-        const OFFSET_X: usize = (Engine::WIDTH - TILES_ACROSS * TILE_SIZE) / 2;
-        const OFFSET_Y: usize = (Engine::HEIGHT - TILES_DOWN * TILE_SIZE) / 2;
+        const OFFSET_X: usize = (Engine::WIDTH - Engine::TILES_ACROSS * Engine::TILE_SIZE) / 2;
+        const OFFSET_Y: usize = (Engine::HEIGHT - Engine::TILES_DOWN * Engine::TILE_SIZE) / 2;
 
-        let mut tileset_index = tile * (TILE_SIZE * TILE_SIZE);
-        let mut buffer_index = (y * TILE_SIZE + OFFSET_Y) * Self::WIDTH + x * TILE_SIZE + OFFSET_X;
+        let mut tileset_index = tile * (Self::TILE_SIZE * Self::TILE_SIZE);
 
-        for _ in 0..TILE_SIZE {
-            self.buffer[buffer_index..buffer_index + TILE_SIZE]
-                .copy_from_slice(&self.tileset[tileset_index..tileset_index + TILE_SIZE]);
+        let mut buffer_index =
+            (y * Self::TILE_SIZE + OFFSET_Y) * Self::WIDTH + x * Self::TILE_SIZE + OFFSET_X;
 
-            tileset_index += TILE_SIZE;
+        for _ in 0..Self::TILE_SIZE {
+            self.buffer[buffer_index..buffer_index + Self::TILE_SIZE]
+                .copy_from_slice(&self.tileset[tileset_index..tileset_index + Self::TILE_SIZE]);
+
+            tileset_index += Self::TILE_SIZE;
             buffer_index += Self::WIDTH;
         }
     }
