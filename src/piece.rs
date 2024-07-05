@@ -55,14 +55,6 @@ impl Piece {
         }
     }
 
-    /// Move the piece up by one cell if it would fit on a board.
-    // TODO: Remove this method.
-    pub fn test_move_up(&mut self, board: &Board) {
-        if self.y > -4 && board.fits_piece(*self, 0, -1) {
-            self.y -= 1;
-        }
-    }
-
     /// Move the piece left by one cell if it would fit on a board.
     pub fn move_left(&mut self, board: &Board) {
         if board.fits_piece(*self, -1, 0) {

@@ -2,6 +2,8 @@ pub mod tileset;
 
 pub use minifb::Key;
 
+use std::time::Instant;
+
 use minifb::{KeyRepeat, Scale, Window, WindowOptions};
 
 /// A game engine.
@@ -14,6 +16,12 @@ pub struct Engine {
 
     /// The tileset buffer.
     tileset: Vec<u32>,
+
+    /// The instant of the previous update.
+    update: Instant,
+
+    /// The time since the previous update in seconds.
+    delta: f64,
 }
 
 impl Engine {
@@ -47,17 +55,26 @@ impl Engine {
 
         let buffer = vec![0x0d_07_09; Self::WIDTH * Self::HEIGHT];
         let tileset = tileset::new();
+        let update = Instant::now();
+        let delta = 0.0;
 
         Engine {
             window,
             buffer,
             tileset,
+            update,
+            delta,
         }
     }
 
     /// Get whether the window is open.
     pub fn window_open(&self) -> bool {
         self.window.is_open()
+    }
+
+    /// Get the time since the previous update in seconds.
+    pub fn delta(&self) -> f64 {
+        self.delta
     }
 
     /// Get whether a key is pressed.
@@ -112,5 +129,9 @@ impl Engine {
         self.window
             .update_with_buffer(&self.buffer, Self::WIDTH, Self::HEIGHT)
             .unwrap();
+
+        let now = Instant::now();
+        self.delta = now.duration_since(self.update).as_secs_f64();
+        self.update = now;
     }
 }
