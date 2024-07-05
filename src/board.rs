@@ -28,13 +28,7 @@ impl Board {
 
     /// Create a new board.
     pub fn new() -> Self {
-        let mut cells = [None; Self::CAPACITY];
-
-        // Place cells to test collision.
-        // TODO: Remove these lines and make cells immutable.
-        cells[53] = Some(Shape::Z);
-        cells[146] = Some(Shape::S);
-
+        let cells = [None; Self::CAPACITY];
         Self { cells }
     }
 
@@ -51,23 +45,51 @@ impl Board {
         }
     }
 
+    /// Create a new piece on the board from its shape.
+    pub fn create_piece(&mut self, shape: Shape) -> Piece {
+        #[allow(clippy::cast_possible_truncation)]
+        let mut piece = Piece::new(shape, (Board::WIDTH as i8 - 4) / 2, -2);
+
+        if !self.fits_piece(piece, 0, 0) {
+            // TODO: Return a failure state instead in this case.
+            self.cells.fill(None);
+        }
+
+        piece.drop(self);
+        piece
+    }
+
     /// Get whether the board can fit a piece with an offset.
     pub fn fits_piece(&self, piece: Piece, x: i8, y: i8) -> bool {
         for (base_x, base_y) in piece.blocks() {
             let (x, y) = (base_x + x, base_y + y);
 
             #[allow(clippy::cast_possible_truncation)]
-            #[allow(clippy::cast_sign_loss)]
             if x < 0
                 || x >= Self::WIDTH as i8
                 || y >= Self::HEIGHT as i8
-                || y >= 0 && self.cells[y as usize * Self::WIDTH + x as usize].is_some()
+                || y >= 0 && self.cells[Self::cell_index(x, y)].is_some()
             {
                 return false;
             }
         }
 
         true
+    }
+
+    /// Lock a piece on the board.
+    pub fn lock_piece(&mut self, piece: Piece) {
+        let cell = Some(piece.shape());
+
+        for (x, y) in piece.blocks() {
+            if y < 0 {
+                // TODO: Return a failure state instead in this case.
+                self.cells.fill(None);
+                return;
+            }
+
+            self.cells[Self::cell_index(x, y)] = cell;
+        }
     }
 
     /// Draw the board.
@@ -84,6 +106,14 @@ impl Board {
                 let (x, y) = (x + Self::DRAW_X, y + Self::DRAW_Y);
                 engine.draw_tile(tile, x, y);
             }
+        }
+    }
+
+    /// Get a cell index from a block position.
+    pub fn cell_index(x: i8, y: i8) -> usize {
+        #[allow(clippy::cast_sign_loss)]
+        {
+            y as usize * Self::WIDTH + x as usize
         }
     }
 }

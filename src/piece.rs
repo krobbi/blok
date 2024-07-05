@@ -48,9 +48,14 @@ impl Piece {
             .map(|(x, y)| (x + self.x, y + self.y))
     }
 
-    /// Drop the piece by one cell if it would fit on a board.
+    /// Get whether the piece is airborne on a board.
+    pub fn airborne(self, board: &Board) -> bool {
+        board.fits_piece(self, 0, 1)
+    }
+
+    /// Drop the piece by one cell if it is airborne on a board.
     pub fn drop(&mut self, board: &Board) {
-        if board.fits_piece(*self, 0, 1) {
+        if self.airborne(board) {
             self.y += 1;
         }
     }
