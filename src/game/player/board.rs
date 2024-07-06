@@ -1,8 +1,6 @@
-use crate::{
-    engine::{tileset, Engine},
-    piece::Piece,
-    shape::Shape,
-};
+use crate::engine::{tileset, Engine};
+
+use super::{piece::Piece, shape::Shape};
 
 /// A board containing a grid of cells.
 pub struct Board {
@@ -45,18 +43,22 @@ impl Board {
         }
     }
 
-    /// Create a new piece on the board from its shape.
-    pub fn create_piece(&mut self, shape: Shape) -> Piece {
+    /// Clear the board.
+    pub fn clear(&mut self) {
+        self.cells.fill(None);
+    }
+
+    /// Create a new optional piece from its shape if it would fit on the board.
+    pub fn create_piece(&self, shape: Shape) -> Option<Piece> {
         #[allow(clippy::cast_possible_truncation)]
         let mut piece = Piece::new(shape, (Board::WIDTH as i8 - 4) / 2, -2);
 
-        if !self.fits_piece(piece, 0, 0) {
-            // TODO: Return a failure state instead in this case.
-            self.cells.fill(None);
+        if self.fits_piece(piece, 0, 0) {
+            piece.drop(self);
+            Some(piece)
+        } else {
+            None
         }
-
-        piece.drop(self);
-        piece
     }
 
     /// Get whether the board can fit a piece with an offset.
@@ -77,19 +79,19 @@ impl Board {
         true
     }
 
-    /// Lock a piece on the board.
-    pub fn lock_piece(&mut self, piece: Piece) {
+    /// Attempt to lock a piece on the board and get whether it was successful.
+    pub fn lock_piece(&mut self, piece: Piece) -> bool {
         let cell = Some(piece.shape());
 
         for (x, y) in piece.blocks() {
             if y < 0 {
-                // TODO: Return a failure state instead in this case.
-                self.cells.fill(None);
-                return;
+                return false;
             }
 
             self.cells[Self::cell_index(x, y)] = cell;
         }
+
+        true
     }
 
     /// Draw the board.
@@ -110,7 +112,7 @@ impl Board {
     }
 
     /// Get a cell index from a block position.
-    pub fn cell_index(x: i8, y: i8) -> usize {
+    fn cell_index(x: i8, y: i8) -> usize {
         #[allow(clippy::cast_sign_loss)]
         {
             y as usize * Self::WIDTH + x as usize

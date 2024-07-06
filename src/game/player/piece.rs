@@ -2,7 +2,7 @@ mod facing;
 
 pub use facing::Facing;
 
-use crate::{
+use super::{
     board::Board,
     shape::{Blocks, Shape},
 };

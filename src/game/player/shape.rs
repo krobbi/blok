@@ -2,7 +2,9 @@ mod blocks;
 
 pub use blocks::Blocks;
 
-use crate::{engine::tileset, piece::Facing};
+use crate::engine::tileset;
+
+use super::piece::Facing;
 
 /// A piece shape.
 #[derive(Clone, Copy)]

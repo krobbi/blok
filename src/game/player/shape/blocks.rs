@@ -1,6 +1,4 @@
-use crate::piece::Facing;
-
-use super::Shape;
+use super::{super::piece::Facing, Shape};
 
 /// A set of block positions forming a shape.
 pub type Blocks = [(i8, i8); 4];
