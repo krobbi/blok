@@ -7,7 +7,7 @@ use crate::engine::tileset;
 use super::piece::Facing;
 
 /// A piece shape.
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, PartialEq, Eq)]
 // TODO: Remove this attribute after all shapes are used.
 #[allow(dead_code)]
 pub enum Shape {

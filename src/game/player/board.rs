@@ -97,6 +97,16 @@ impl Board {
         true
     }
 
+    /// Clear all full lines on the board.
+    pub fn clear_lines(&mut self) {
+        for index in (0..Self::CAPACITY).step_by(Self::WIDTH) {
+            if !self.cells[index..index + Self::WIDTH].contains(&None) {
+                self.cells.copy_within(0..index, Self::WIDTH);
+                self.cells[0..Self::WIDTH].fill(None);
+            }
+        }
+    }
+
     /// Draw the board.
     pub fn draw(&self, engine: &mut Engine) {
         engine.draw_border(Self::DRAW_X, Self::DRAW_Y, Self::WIDTH, Self::HEIGHT);

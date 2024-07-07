@@ -66,6 +66,7 @@ impl State for DroppingPiece {
 
             if self.lock_timer <= 0.0 {
                 return if player.board_mut().lock_piece(self.piece) {
+                    player.board_mut().clear_lines();
                     state::CreatingPiece.transition()
                 } else {
                     state::GameOver.transition()
