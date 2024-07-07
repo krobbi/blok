@@ -15,13 +15,12 @@ on the board. Points can be scored by filling and clearing a horizontal row of
 blocks on the board. The objective of the game is to score as many points as
 possible before the game is over.
 
-The game is being implemented and is not yet in a playable state.
-
 # Dependencies
 Blok uses the following libraries:
 * [image](https://crates.io/crates/image) - PNG image decoding.
 * [minifb](https://crates.io/crates/minifb) - Window management, keyboard
 input, and frame buffer rendering.
+* [rand](https://crates.io/crates/rand) - Random shuffling.
 
 # Credits
 Blok uses the color palette

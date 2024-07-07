@@ -32,7 +32,7 @@ impl Game {
 
     /// Draw the game.
     pub fn draw(&self, engine: &mut Engine) {
-        self.player.draw(engine);
+        self.player.board().draw(engine);
         self.state.draw(engine);
     }
 }

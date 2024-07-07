@@ -1,9 +1,6 @@
 use crate::{
     engine::Engine,
-    game::{
-        player::{Player, Shape},
-        state,
-    },
+    game::{player::Player, state},
 };
 
 use super::{State, Transition};
@@ -13,7 +10,9 @@ pub struct CreatingPiece;
 
 impl State for CreatingPiece {
     fn update(&mut self, player: &mut Player, _engine: &Engine) -> Transition {
-        match player.board().create_piece(Shape::J) {
+        let shape = player.bag_mut().shape();
+
+        match player.board().create_piece(shape) {
             None => state::GameOver.transition(),
             Some(piece) => state::DroppingPiece::new(piece).transition(),
         }

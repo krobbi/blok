@@ -8,8 +8,6 @@ use super::piece::Facing;
 
 /// A piece shape.
 #[derive(Clone, Copy, PartialEq, Eq)]
-// TODO: Remove this attribute after all shapes are used.
-#[allow(dead_code)]
 pub enum Shape {
     /// An I shape.
     I,
@@ -35,7 +33,7 @@ pub enum Shape {
 
 impl Shape {
     /// The number of shapes.
-    const COUNT: usize = 7;
+    pub const COUNT: usize = 7;
 
     /// Get the block tile.
     pub fn block_tile(self) -> usize {
