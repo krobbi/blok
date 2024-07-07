@@ -15,8 +15,11 @@ impl Board {
     /// The height of a board in cells.
     const HEIGHT: usize = 20;
 
+    /// The height of a buffer above a board in cells.
+    const BUFFER_HEIGHT: usize = 3;
+
     /// The capacity of a board in cells.
-    const CAPACITY: usize = Self::WIDTH * Self::HEIGHT;
+    const CAPACITY: usize = (Self::HEIGHT + Self::BUFFER_HEIGHT) * Self::WIDTH;
 
     /// The X offset for drawing cells.
     const DRAW_X: usize = (Engine::TILES_ACROSS - Self::WIDTH) / 2;
@@ -70,7 +73,7 @@ impl Board {
             if x < 0
                 || x >= Self::WIDTH as i8
                 || y >= Self::HEIGHT as i8
-                || y >= 0 && self.cells[Self::cell_index(x, y)].is_some()
+                || y >= -(Self::BUFFER_HEIGHT as i8) && self.cells[Self::cell_index(x, y)].is_some()
             {
                 return false;
             }
@@ -81,13 +84,13 @@ impl Board {
 
     /// Attempt to lock a piece on the board and get whether it was successful.
     pub fn lock_piece(&mut self, piece: Piece) -> bool {
+        if Self::piece_above_board(piece) {
+            return false;
+        }
+
         let cell = Some(piece.shape());
 
         for (x, y) in piece.blocks() {
-            if y < 0 {
-                return false;
-            }
-
             self.cells[Self::cell_index(x, y)] = cell;
         }
 
@@ -100,7 +103,7 @@ impl Board {
 
         for y in 0..Self::HEIGHT {
             for x in 0..Self::WIDTH {
-                let tile = match self.cells[y * Self::WIDTH + x] {
+                let tile = match self.cells[(y + Self::BUFFER_HEIGHT) * Self::WIDTH + x] {
                     None => tileset::CELL_TILE,
                     Some(shape) => shape.block_tile(),
                 };
@@ -113,9 +116,20 @@ impl Board {
 
     /// Get a cell index from a block position.
     fn cell_index(x: i8, y: i8) -> usize {
-        #[allow(clippy::cast_sign_loss)]
+        #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
         {
-            y as usize * Self::WIDTH + x as usize
+            (y + Self::BUFFER_HEIGHT as i8) as usize * Self::WIDTH + x as usize
         }
+    }
+
+    /// Get whether a piece is entirely above a board.
+    fn piece_above_board(piece: Piece) -> bool {
+        for (_, y) in piece.blocks() {
+            if y >= 0 {
+                return false;
+            }
+        }
+
+        true
     }
 }
