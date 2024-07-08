@@ -10,6 +10,6 @@ pub struct NewGame;
 
 impl State for NewGame {
     fn update(&mut self, _player: &mut Player, _engine: &Engine) -> Transition {
-        state::CreatingPiece.transition()
+        state::CreatingPiece::new().transition()
     }
 }

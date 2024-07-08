@@ -60,6 +60,13 @@ impl Piece {
         }
     }
 
+    /// Drop the piece until it lands on a board.
+    pub fn hard_drop(&mut self, board: &Board) {
+        while self.airborne(board) {
+            self.y += 1;
+        }
+    }
+
     /// Move the piece left by one cell if it would fit on a board.
     pub fn move_left(&mut self, board: &Board) {
         if board.fits_piece(*self, -1, 0) {

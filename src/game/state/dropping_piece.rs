@@ -38,6 +38,16 @@ impl DroppingPiece {
             lock_timer,
         }
     }
+
+    /// Lock the piece on a board and get the transition.
+    fn lock_piece(&self, board: &mut Board) -> Transition {
+        if board.lock_piece(self.piece) {
+            board.clear_lines();
+            state::CreatingPiece::new().transition()
+        } else {
+            state::GameOver.transition()
+        }
+    }
 }
 
 impl State for DroppingPiece {
@@ -50,6 +60,9 @@ impl State for DroppingPiece {
             self.piece.rotate_clockwise(player.board());
         } else if engine.key_pressed(Key::Z) {
             self.piece.rotate_counter_clockwise(player.board());
+        } else if engine.key_pressed(Key::Space) {
+            self.piece.hard_drop(player.board());
+            return self.lock_piece(player.board_mut());
         }
 
         if self.piece.airborne(player.board()) {
@@ -65,12 +78,7 @@ impl State for DroppingPiece {
             self.lock_timer -= engine.delta();
 
             if self.lock_timer <= 0.0 {
-                return if player.board_mut().lock_piece(self.piece) {
-                    player.board_mut().clear_lines();
-                    state::CreatingPiece.transition()
-                } else {
-                    state::GameOver.transition()
-                };
+                return self.lock_piece(player.board_mut());
             }
         }
 
