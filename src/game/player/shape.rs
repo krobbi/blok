@@ -48,6 +48,19 @@ impl Shape {
         }
     }
 
+    /// Get the ghost tile.
+    pub fn ghost_tile(self) -> usize {
+        match self {
+            Self::I => tileset::CYAN_GHOST_TILE,
+            Self::J => tileset::BLUE_GHOST_TILE,
+            Self::L => tileset::ORANGE_GHOST_TILE,
+            Self::O => tileset::YELLOW_GHOST_TILE,
+            Self::S => tileset::GREEN_GHOST_TILE,
+            Self::T => tileset::PURPLE_GHOST_TILE,
+            Self::Z => tileset::RED_GHOST_TILE,
+        }
+    }
+
     /// Get the blocks with a facing.
     pub fn blocks(self, facing: Facing) -> Blocks {
         blocks::new(self, facing)

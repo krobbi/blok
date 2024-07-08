@@ -24,6 +24,27 @@ pub const PURPLE_BLOCK_TILE: usize = 6;
 /// The tile for a red block.
 pub const RED_BLOCK_TILE: usize = 7;
 
+/// The tile for an empty cell with a cyan ghost.
+pub const CYAN_GHOST_TILE: usize = 9;
+
+/// The tile for an empty cell with a blue ghost.
+pub const BLUE_GHOST_TILE: usize = 10;
+
+/// The tile for an empty cell with an orange ghost.
+pub const ORANGE_GHOST_TILE: usize = 11;
+
+/// The tile for an empty cell with a yellow ghost.
+pub const YELLOW_GHOST_TILE: usize = 12;
+
+/// The tile for an empty cell with a green ghost.
+pub const GREEN_GHOST_TILE: usize = 13;
+
+/// The tile for an empty cell with a purple ghost.
+pub const PURPLE_GHOST_TILE: usize = 14;
+
+/// The tile for an empty cell with a red ghost.
+pub const RED_GHOST_TILE: usize = 15;
+
 /// The tile for a border's top-left corner.
 pub(super) const TOP_LEFT_BORDER_TILE: usize = 16;
 

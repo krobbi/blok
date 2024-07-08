@@ -85,7 +85,8 @@ impl State for DroppingPiece {
         None
     }
 
-    fn draw(&self, engine: &mut Engine) {
+    fn draw(&self, player: &Player, engine: &mut Engine) {
+        player.board().draw_ghost_piece(self.piece, engine);
         Board::draw_piece(self.piece, engine);
     }
 }

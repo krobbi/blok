@@ -1,6 +1,9 @@
 use crate::engine::{tileset, Engine};
 
-use super::{piece::Piece, shape::Shape};
+use super::{
+    piece::Piece,
+    shape::{Blocks, Shape},
+};
 
 /// A board containing a grid of cells.
 pub struct Board {
@@ -35,15 +38,7 @@ impl Board {
 
     /// Draw a piece relative to a board.
     pub fn draw_piece(piece: Piece, engine: &mut Engine) {
-        let tile = piece.shape().block_tile();
-
-        for (x, y) in piece.blocks() {
-            if y >= 0 {
-                #[allow(clippy::cast_sign_loss)]
-                let (x, y) = (x as usize + Self::DRAW_X, y as usize + Self::DRAW_Y);
-                engine.draw_tile(tile, x, y);
-            }
-        }
+        Self::draw_blocks(piece.blocks(), piece.shape().block_tile(), engine);
     }
 
     /// Clear the board.
@@ -124,6 +119,18 @@ impl Board {
         }
     }
 
+    /// Draw a ghost piece relative to the board.
+    pub fn draw_ghost_piece(&self, piece: Piece, engine: &mut Engine) {
+        let mut offset_y = 0;
+
+        while self.fits_piece(piece, 0, offset_y + 1) {
+            offset_y += 1;
+        }
+
+        let blocks = piece.blocks().map(|(x, y)| (x, y + offset_y));
+        Self::draw_blocks(blocks, piece.shape().ghost_tile(), engine);
+    }
+
     /// Get a cell index from a block position.
     fn cell_index(x: i8, y: i8) -> usize {
         #[allow(clippy::cast_possible_truncation, clippy::cast_sign_loss)]
@@ -141,5 +148,16 @@ impl Board {
         }
 
         true
+    }
+
+    /// Draw blocks relative to a board with a tile.
+    fn draw_blocks(blocks: Blocks, tile: usize, engine: &mut Engine) {
+        for (x, y) in blocks {
+            if y >= 0 {
+                #[allow(clippy::cast_sign_loss)]
+                let (x, y) = (x as usize + Self::DRAW_X, y as usize + Self::DRAW_Y);
+                engine.draw_tile(tile, x, y);
+            }
+        }
     }
 }

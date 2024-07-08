@@ -21,7 +21,7 @@ pub trait State {
     fn update(&mut self, player: &mut Player, engine: &Engine) -> Transition;
 
     /// Draw the state.
-    fn draw(&self, _engine: &mut Engine) {}
+    fn draw(&self, _player: &Player, _engine: &mut Engine) {}
 
     /// Wrap the state in a transition.
     fn transition(self) -> Transition
