@@ -67,7 +67,13 @@ impl State for DroppingPiece {
 
         if self.piece.airborne(player.board()) {
             self.lock_timer = Self::LOCK_PERIOD;
-            self.drop_timer -= engine.delta();
+
+            self.drop_timer -= engine.delta()
+                * if engine.key_down(Key::Down) {
+                    20.0
+                } else {
+                    1.0
+                };
 
             if self.drop_timer <= 0.0 {
                 self.drop_timer += Self::DROP_PERIOD;

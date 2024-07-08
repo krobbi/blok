@@ -77,6 +77,11 @@ impl Engine {
         self.delta
     }
 
+    /// Get whether a key is down.
+    pub fn key_down(&self, key: Key) -> bool {
+        self.window.is_key_down(key)
+    }
+
     /// Get whether a key is pressed.
     pub fn key_pressed(&self, key: Key) -> bool {
         self.window.is_key_pressed(key, KeyRepeat::No)
