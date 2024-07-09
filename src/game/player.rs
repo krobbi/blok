@@ -1,29 +1,28 @@
-mod bag;
 mod board;
 mod piece;
+mod queue;
 mod shape;
 
 pub use board::Board;
 pub use piece::Piece;
 
-use bag::Bag;
-use shape::Shape;
+use queue::Queue;
 
 /// A player's game components.
 pub struct Player {
     /// The board.
     board: Board,
 
-    /// The bag.
-    bag: Bag,
+    /// The queue.
+    queue: Queue,
 }
 
 impl Player {
     /// Create a new player.
     pub fn new() -> Self {
         let board = Board::new();
-        let bag = Bag::new();
-        Self { board, bag }
+        let queue = Queue::new();
+        Self { board, queue }
     }
 
     /// Get a reference to the board.
@@ -36,8 +35,8 @@ impl Player {
         &mut self.board
     }
 
-    /// Get a mutable reference to the bag.
-    pub fn bag_mut(&mut self) -> &mut Bag {
-        &mut self.bag
+    /// Get a mutable reference to the queue.
+    pub fn queue_mut(&mut self) -> &mut Queue {
+        &mut self.queue
     }
 }

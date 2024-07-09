@@ -27,7 +27,7 @@ impl State for CreatingPiece {
             return None;
         }
 
-        let shape = player.bag_mut().shape();
+        let shape = player.queue_mut().shape();
 
         match player.board().create_piece(shape) {
             None => state::GameOver.transition(),

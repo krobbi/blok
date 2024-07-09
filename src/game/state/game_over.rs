@@ -11,7 +11,7 @@ pub struct GameOver;
 impl State for GameOver {
     fn update(&mut self, player: &mut Player, _engine: &Engine) -> Transition {
         player.board_mut().clear();
-        player.bag_mut().reset();
+        player.queue_mut().reset();
         state::NewGame.transition()
     }
 }

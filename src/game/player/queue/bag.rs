@@ -1,6 +1,6 @@
 use rand::seq::SliceRandom;
 
-use super::Shape;
+use crate::game::player::shape::Shape;
 
 /// An infinite bag generating a random, even distribution of shapes.
 pub struct Bag {
