@@ -24,6 +24,9 @@ pub const PURPLE_BLOCK_TILE: usize = 6;
 /// The tile for a red block.
 pub const RED_BLOCK_TILE: usize = 7;
 
+/// The tile for the background clear color.
+pub const CLEAR_TILE: usize = 8;
+
 /// The tile for an empty cell with a cyan ghost.
 pub const CYAN_GHOST_TILE: usize = 9;
 

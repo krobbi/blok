@@ -35,6 +35,11 @@ impl Player {
         &mut self.board
     }
 
+    /// Get a reference to the queue.
+    pub fn queue(&self) -> &Queue {
+        &self.queue
+    }
+
     /// Get a mutable reference to the queue.
     pub fn queue_mut(&mut self) -> &mut Queue {
         &mut self.queue

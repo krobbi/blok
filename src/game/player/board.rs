@@ -12,6 +12,12 @@ pub struct Board {
 }
 
 impl Board {
+    /// The X position for drawing a queue next to a board.
+    pub const QUEUE_X: usize = Self::DRAW_X + Self::WIDTH + 1 + 1;
+
+    /// The Y position for drawing a queue next to a board.
+    pub const QUEUE_Y: usize = Self::DRAW_Y;
+
     /// The width of a board in cells.
     const WIDTH: usize = 10;
 
@@ -19,7 +25,7 @@ impl Board {
     const HEIGHT: usize = 20;
 
     /// The height of a buffer above a board in cells.
-    const BUFFER_HEIGHT: usize = 3;
+    const BUFFER_HEIGHT: usize = Shape::WIDTH - 1;
 
     /// The capacity of a board in cells.
     const CAPACITY: usize = (Self::HEIGHT + Self::BUFFER_HEIGHT) * Self::WIDTH;
@@ -49,7 +55,12 @@ impl Board {
     /// Create a new optional piece from its shape if it would fit on the board.
     pub fn create_piece(&self, shape: Shape) -> Option<Piece> {
         #[allow(clippy::cast_possible_truncation)]
-        let mut piece = Piece::new(shape, (Board::WIDTH as i8 - 4) / 2, -2);
+        const X: i8 = (Board::WIDTH - Shape::WIDTH) as i8 / 2;
+
+        #[allow(clippy::cast_possible_truncation)]
+        const Y: i8 = -(Shape::HEIGHT as i8);
+
+        let mut piece = Piece::new(shape, X, Y);
 
         if self.fits_piece(piece, 0, 0) {
             piece.drop(self);
@@ -156,6 +167,7 @@ impl Board {
             if y >= 0 {
                 #[allow(clippy::cast_sign_loss)]
                 let (x, y) = (x as usize + Self::DRAW_X, y as usize + Self::DRAW_Y);
+
                 engine.draw_tile(tile, x, y);
             }
         }

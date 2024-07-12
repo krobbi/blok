@@ -33,6 +33,7 @@ impl Game {
     /// Draw the game.
     pub fn draw(&self, engine: &mut Engine) {
         self.player.board().draw(engine);
+        self.player.queue().draw(engine);
         self.state.draw(&self.player, engine);
     }
 }

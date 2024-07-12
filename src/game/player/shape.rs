@@ -2,7 +2,7 @@ mod blocks;
 
 pub use blocks::Blocks;
 
-use crate::engine::tileset;
+use crate::engine::{tileset, Engine};
 
 use super::piece::Facing;
 
@@ -35,6 +35,12 @@ impl Shape {
     /// The number of shapes.
     pub const COUNT: usize = 7;
 
+    /// The bounding width of an upward-facing shape.
+    pub const WIDTH: usize = 4;
+
+    /// The bounding height of an upward-facing shape.
+    pub const HEIGHT: usize = 2;
+
     /// Get the block tile.
     pub fn block_tile(self) -> usize {
         match self {
@@ -64,5 +70,23 @@ impl Shape {
     /// Get the blocks with a facing.
     pub fn blocks(self, facing: Facing) -> Blocks {
         blocks::new(self, facing)
+    }
+
+    /// Draw the shape.
+    pub fn draw(self, x: usize, y: usize, engine: &mut Engine) {
+        for y in y..y + Self::HEIGHT {
+            for x in x..x + Self::WIDTH {
+                engine.draw_tile(tileset::CLEAR_TILE, x, y);
+            }
+        }
+
+        let tile = self.block_tile();
+
+        for (base_x, base_y) in self.blocks(Facing::Up) {
+            #[allow(clippy::cast_sign_loss)]
+            let (x, y) = (base_x as usize + x, base_y as usize + y);
+
+            engine.draw_tile(tile, x, y);
+        }
     }
 }
