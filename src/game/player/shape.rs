@@ -41,6 +41,15 @@ impl Shape {
     /// The bounding height of an upward-facing shape.
     pub const HEIGHT: usize = 2;
 
+    /// Draw a background for a shape.
+    pub fn draw_background(x: usize, y: usize, engine: &mut Engine) {
+        for y in y..y + Self::HEIGHT {
+            for x in x..x + Self::WIDTH {
+                engine.draw_tile(tileset::CLEAR_TILE, x, y);
+            }
+        }
+    }
+
     /// Get the block tile.
     pub fn block_tile(self) -> usize {
         match self {
@@ -74,12 +83,6 @@ impl Shape {
 
     /// Draw the shape.
     pub fn draw(self, x: usize, y: usize, engine: &mut Engine) {
-        for y in y..y + Self::HEIGHT {
-            for x in x..x + Self::WIDTH {
-                engine.draw_tile(tileset::CLEAR_TILE, x, y);
-            }
-        }
-
         let tile = self.block_tile();
 
         for (base_x, base_y) in self.blocks(Facing::Up) {

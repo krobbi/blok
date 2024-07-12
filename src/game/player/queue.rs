@@ -4,7 +4,7 @@ use bag::Bag;
 
 use crate::{engine::Engine, game::player::Board};
 
-use super::shape::Shape;
+use super::Shape;
 
 /// An infinite queue of random, evenly distributed shapes.
 pub struct Queue {
@@ -57,6 +57,7 @@ impl Queue {
         {
             const X: usize = Board::QUEUE_X + 1;
 
+            Shape::draw_background(X, y, engine);
             shape.draw(X, y, engine);
         }
     }

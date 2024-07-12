@@ -1,9 +1,6 @@
 use crate::engine::{tileset, Engine};
 
-use super::{
-    piece::Piece,
-    shape::{Blocks, Shape},
-};
+use super::{hold::Hold, piece::Piece, shape::Blocks, Shape};
 
 /// A board containing a grid of cells.
 pub struct Board {
@@ -12,6 +9,12 @@ pub struct Board {
 }
 
 impl Board {
+    /// The X position for drawing a hold next to a board.
+    pub const HOLD_X: usize = Self::DRAW_X - 1 - 1 - Hold::WIDTH;
+
+    /// The Y position for drawing a hold next to a board.
+    pub const HOLD_Y: usize = Self::DRAW_Y;
+
     /// The X position for drawing a queue next to a board.
     pub const QUEUE_X: usize = Self::DRAW_X + Self::WIDTH + 1 + 1;
 

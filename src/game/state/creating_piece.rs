@@ -1,35 +1,29 @@
 use crate::{
     engine::Engine,
-    game::{player::Player, state},
+    game::{
+        player::{Player, Shape},
+        state,
+    },
 };
 
 use super::{State, Transition};
 
-/// A state where a new piece is attempted to be created on a board with delay.
+/// A state where a new piece is created from a shape.
 pub struct CreatingPiece {
-    /// The time until the piece is created in seconds.
-    delay: f64,
+    /// The shape for creating the piece.
+    shape: Shape,
 }
 
 impl CreatingPiece {
-    /// Create a new creating piece state.
-    pub fn new() -> Self {
-        let delay = 0.2;
-        Self { delay }
+    /// Create a new creating piece state from its shape.
+    pub fn new(shape: Shape) -> Self {
+        Self { shape }
     }
 }
 
 impl State for CreatingPiece {
-    fn update(&mut self, player: &mut Player, engine: &Engine) -> Transition {
-        self.delay -= engine.delta();
-
-        if self.delay > 0.0 {
-            return None;
-        }
-
-        let shape = player.queue_mut().shape();
-
-        match player.board().create_piece(shape) {
+    fn update(&mut self, player: &mut Player, _engine: &Engine) -> Transition {
+        match player.board().create_piece(self.shape) {
             None => state::GameOver.transition(),
             Some(piece) => state::DroppingPiece::new(piece).transition(),
         }

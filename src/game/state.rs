@@ -1,12 +1,15 @@
+mod choosing_shape;
 mod creating_piece;
 mod dropping_piece;
 mod game_over;
 mod new_game;
 
-pub use creating_piece::CreatingPiece;
-pub use dropping_piece::DroppingPiece;
-pub use game_over::GameOver;
-pub use new_game::NewGame;
+pub(super) use new_game::NewGame;
+
+use choosing_shape::ChoosingShape;
+use creating_piece::CreatingPiece;
+use dropping_piece::DroppingPiece;
+use game_over::GameOver;
 
 use crate::engine::Engine;
 

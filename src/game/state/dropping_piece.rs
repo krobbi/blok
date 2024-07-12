@@ -39,11 +39,12 @@ impl DroppingPiece {
         }
     }
 
-    /// Lock the piece on a board and get the transition.
-    fn lock_piece(&self, board: &mut Board) -> Transition {
-        if board.lock_piece(self.piece) {
-            board.clear_lines();
-            state::CreatingPiece::new().transition()
+    /// Lock the piece and get the transition.
+    fn lock_piece(&self, player: &mut Player) -> Transition {
+        if player.board_mut().lock_piece(self.piece) {
+            player.hold_mut().unlock();
+            player.board_mut().clear_lines();
+            state::ChoosingShape::new().transition()
         } else {
             state::GameOver.transition()
         }
@@ -52,7 +53,14 @@ impl DroppingPiece {
 
 impl State for DroppingPiece {
     fn update(&mut self, player: &mut Player, engine: &Engine) -> Transition {
-        if engine.key_pressed(Key::Left) {
+        if engine.key_pressed(Key::LeftShift) && player.hold().unlocked() {
+            let shape = match player.hold_mut().hold(self.piece.shape()) {
+                None => player.queue_mut().shape(),
+                Some(shape) => shape,
+            };
+
+            return state::CreatingPiece::new(shape).transition();
+        } else if engine.key_pressed(Key::Left) {
             self.piece.move_left(player.board());
         } else if engine.key_pressed(Key::Right) {
             self.piece.move_right(player.board());
@@ -62,7 +70,7 @@ impl State for DroppingPiece {
             self.piece.rotate_counter_clockwise(player.board());
         } else if engine.key_pressed(Key::Space) {
             self.piece.hard_drop(player.board());
-            return self.lock_piece(player.board_mut());
+            return self.lock_piece(player);
         }
 
         if self.piece.airborne(player.board()) {
@@ -84,7 +92,7 @@ impl State for DroppingPiece {
             self.lock_timer -= engine.delta();
 
             if self.lock_timer <= 0.0 {
-                return self.lock_piece(player.board_mut());
+                return self.lock_piece(player);
             }
         }
 
