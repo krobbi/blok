@@ -90,11 +90,31 @@ impl Piece {
 
     /// Rotate the piece to a target facing if it would fit on a board.
     fn rotate_to(&mut self, facing: Facing, board: &Board) {
+        static DEFAULT_KICKS: &[(i8, i8)] = &[(1, 0), (-1, 0), (0, -1)];
+        static I_KICKS: &[(i8, i8)] = &[(1, 0), (-1, 0), (0, -1), (2, 0), (-2, 0), (0, -2)];
+        static O_KICKS: &[(i8, i8)] = &[];
+
         let source_facing = self.facing;
         self.facing = facing;
 
-        if !board.fits_piece(*self, 0, 0) {
-            self.facing = source_facing;
+        if board.fits_piece(*self, 0, 0) {
+            return;
         }
+
+        let kicks = match self.shape {
+            Shape::I => I_KICKS,
+            Shape::J | Shape::L | Shape::S | Shape::T | Shape::Z => DEFAULT_KICKS,
+            Shape::O => O_KICKS,
+        };
+
+        for &(x, y) in kicks {
+            if board.fits_piece(*self, x, y) {
+                self.x += x;
+                self.y += y;
+                return;
+            }
+        }
+
+        self.facing = source_facing;
     }
 }
