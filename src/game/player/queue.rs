@@ -2,9 +2,9 @@ mod bag;
 
 use bag::Bag;
 
-use crate::{engine::Engine, game::player::Board};
+use crate::engine::Engine;
 
-use super::Shape;
+use super::{Board, Shape};
 
 /// An infinite queue of random, evenly distributed shapes.
 pub struct Queue {
@@ -53,7 +53,7 @@ impl Queue {
             .shapes
             .iter()
             .enumerate()
-            .map(|(y, shape)| (y * STEP + Board::QUEUE_Y + 1, shape))
+            .map(|(y, &shape)| (y * STEP + Board::QUEUE_Y + 1, shape))
         {
             const X: usize = Board::QUEUE_X + 1;
 

@@ -2,10 +2,7 @@ mod facing;
 
 pub use facing::Facing;
 
-use super::{
-    board::Board,
-    shape::{Blocks, Shape},
-};
+use super::{shape::Blocks, Board, Shape};
 
 /// A movable piece.
 #[derive(Clone, Copy)]

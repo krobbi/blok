@@ -1,6 +1,6 @@
 use crate::engine::{tileset, Engine};
 
-use super::{hold::Hold, piece::Piece, shape::Blocks, Shape};
+use super::{hold::Hold, shape::Blocks, Piece, Shape};
 
 /// A board containing a grid of cells.
 pub struct Board {
