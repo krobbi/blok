@@ -2,6 +2,7 @@ mod board;
 mod hold;
 mod piece;
 mod queue;
+mod scoreboard;
 mod shape;
 
 pub use board::Board;
@@ -10,6 +11,7 @@ pub use shape::Shape;
 
 use hold::Hold;
 use queue::Queue;
+use scoreboard::Scoreboard;
 
 /// A player's game components.
 pub struct Player {
@@ -21,6 +23,9 @@ pub struct Player {
 
     /// The queue.
     queue: Queue,
+
+    /// The scoreboard.
+    scoreboard: Scoreboard,
 }
 
 impl Player {
@@ -29,7 +34,14 @@ impl Player {
         let board = Board::new();
         let hold = Hold::new();
         let queue = Queue::new();
-        Self { board, hold, queue }
+        let scoreboard = Scoreboard::new();
+
+        Self {
+            board,
+            hold,
+            queue,
+            scoreboard,
+        }
     }
 
     /// Get a reference to the board.
@@ -60,5 +72,10 @@ impl Player {
     /// Get a mutable reference to the queue.
     pub fn queue_mut(&mut self) -> &mut Queue {
         &mut self.queue
+    }
+
+    /// Get a reference to the scoreboard.
+    pub fn scoreboard(&self) -> &Scoreboard {
+        &self.scoreboard
     }
 }

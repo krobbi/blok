@@ -35,6 +35,7 @@ impl Game {
         self.player.board().draw(engine);
         self.player.hold().draw(engine);
         self.player.queue().draw(engine);
+        self.player.scoreboard().draw(engine);
         self.state.draw(&self.player, engine);
     }
 }

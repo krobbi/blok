@@ -15,6 +15,9 @@ impl Hold {
     /// The width for drawing a hold in tiles.
     pub const WIDTH: usize = 1 + Shape::WIDTH + 1;
 
+    /// The height for drawing a hold in tiles.
+    pub const HEIGHT: usize = 1 + Shape::HEIGHT + 1;
+
     /// Create a new hold.
     pub fn new() -> Self {
         let shape = None;
@@ -50,9 +53,8 @@ impl Hold {
     pub fn draw(&self, engine: &mut Engine) {
         const X: usize = Board::HOLD_X + 1;
         const Y: usize = Board::HOLD_Y + 1;
-        const HEIGHT: usize = 1 + Shape::HEIGHT + 1;
 
-        engine.draw_border(Board::HOLD_X, Board::HOLD_Y, Self::WIDTH, HEIGHT);
+        engine.draw_border(Board::HOLD_X, Board::HOLD_Y, Self::WIDTH, Self::HEIGHT);
         Shape::draw_background(X, Y, engine);
 
         if let Some(shape) = self.shape {

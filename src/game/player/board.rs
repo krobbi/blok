@@ -21,6 +21,12 @@ impl Board {
     /// The Y position for drawing a queue next to a board.
     pub const QUEUE_Y: usize = Self::DRAW_Y;
 
+    /// The X position for drawing a scoreboard next to a board.
+    pub const SCOREBOARD_X: usize = Self::HOLD_X + Hold::WIDTH;
+
+    /// The Y position for drawing a scoreboard next to a board.
+    pub const SCOREBOARD_Y: usize = Self::HOLD_Y + Hold::HEIGHT + 1;
+
     /// The width of a board in cells.
     const WIDTH: usize = 10;
 
