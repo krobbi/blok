@@ -110,6 +110,23 @@ impl Engine {
         }
     }
 
+    /// Draw a number.
+    pub fn draw_number(&mut self, mut number: usize, mut x: usize, y: usize) {
+        loop {
+            const BASE: usize = 10;
+
+            let tile = number % BASE + tileset::DIGIT_TILE_OFFSET;
+            self.draw_tile(tile, x, y);
+            number /= BASE;
+
+            if number == 0 {
+                break;
+            }
+
+            x -= 1;
+        }
+    }
+
     /// Draw a tile.
     pub fn draw_tile(&mut self, tile: usize, x: usize, y: usize) {
         const OFFSET_X: usize = (Engine::WIDTH - Engine::TILES_ACROSS * Engine::TILE_SIZE) / 2;

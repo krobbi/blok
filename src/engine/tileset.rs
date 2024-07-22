@@ -72,6 +72,9 @@ pub(super) const BOTTOM_BORDER_TILE: usize = 22;
 /// The tile for a border's bottom-right corner.
 pub(super) const BOTTOM_RIGHT_BORDER_TILE: usize = 23;
 
+/// The offset from a digit to its tile.
+pub(super) const DIGIT_TILE_OFFSET: usize = 24;
+
 /// The width or height of a tile in pixels.
 pub(super) const TILE_SIZE: u32 = 8;
 
