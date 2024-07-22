@@ -69,7 +69,8 @@ impl State for DroppingPiece {
         } else if engine.key_pressed(Key::Z) {
             self.piece.rotate_counter_clockwise(player.board());
         } else if engine.key_pressed(Key::Space) {
-            self.piece.hard_drop(player.board());
+            let cells = self.piece.hard_drop(player.board());
+            player.scoreboard_mut().record_hard_drop(cells);
             return self.lock_piece(player);
         }
 

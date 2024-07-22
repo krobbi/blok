@@ -28,6 +28,11 @@ impl Scoreboard {
         self.add_score(1);
     }
 
+    /// Record a hard drop by a number of cells.
+    pub fn record_hard_drop(&mut self, cells: usize) {
+        self.add_score(cells * 2);
+    }
+
     /// Draw the scoreboard.
     pub fn draw(&self, engine: &mut Engine) {
         const RIGHT_X: usize = Board::SCOREBOARD_X + Scoreboard::WIDTH - 1;

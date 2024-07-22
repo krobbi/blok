@@ -57,11 +57,16 @@ impl Piece {
         }
     }
 
-    /// Drop the piece until it lands on a board.
-    pub fn hard_drop(&mut self, board: &Board) {
+    /// Drop the piece until it lands on a board and get how far it dropped.
+    pub fn hard_drop(&mut self, board: &Board) -> usize {
+        let mut cells = 0;
+
         while self.airborne(board) {
             self.y += 1;
+            cells += 1;
         }
+
+        cells
     }
 
     /// Move the piece left by one cell if it would fit on a board.
