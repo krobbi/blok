@@ -13,6 +13,7 @@ impl State for GameOver {
         player.board_mut().clear();
         player.hold_mut().reset();
         player.queue_mut().reset();
+        player.scoreboard_mut().reset();
         state::NewGame.transition()
     }
 }
