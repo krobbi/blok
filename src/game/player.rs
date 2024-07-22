@@ -78,4 +78,9 @@ impl Player {
     pub fn scoreboard(&self) -> &Scoreboard {
         &self.scoreboard
     }
+
+    /// Get a mutable reference to the scoreboard.
+    pub fn scoreboard_mut(&mut self) -> &mut Scoreboard {
+        &mut self.scoreboard
+    }
 }

@@ -15,8 +15,18 @@ impl Scoreboard {
         Self { score }
     }
 
+    /// Record a soft drop by one cell.
+    pub fn record_soft_drop(&mut self) {
+        self.add_score(1);
+    }
+
     /// Draw the scoreboard.
     pub fn draw(&self, engine: &mut Engine) {
         engine.draw_number(self.score, Board::SCOREBOARD_X, Board::SCOREBOARD_Y);
+    }
+
+    /// Add score to the scoreboard.
+    fn add_score(&mut self, score: usize) {
+        self.score += score;
     }
 }
