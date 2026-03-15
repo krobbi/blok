@@ -1,15 +1,15 @@
+# Ignore:
+ignore/
+
 # Rust:
-target/*
+target/
 *.exe
 *.pdb
 *.rs.bk
 
-# Ignore:
-ignore/*
-
 # IDE:
-.idea/*
-.vscode/*
+.idea/
+.vscode/
 *.code-workspace
 *.sublime-project
 *.sublime-workspace
