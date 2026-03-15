@@ -1,16 +1,12 @@
 Blok License
 
-This collection of source code, assets, documentation, and configuration files
-(the "Software") may freely be used, copied, modified, and distributed, subject
-to the following conditions:
+This repository of source code, assets, documentation, and configuration files
+and any executable code derived from it ('Blok' or 'THE SOFTWARE') may be used,
+copied, modified, and distributed, subject to the following conditions:
 
-This license text shall be included in full and unmodified in all copies of the
-Software.
+Blok MUST NOT be used for commercial purposes.
 
-The Software shall not be used for commercial purposes.
-
-Binaries or other media derived from or featuring the Software shall not be used
-for commercial purposes or distributed.
+A copy of this license text MUST be included in all copies of Blok.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
