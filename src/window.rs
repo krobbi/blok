@@ -1,19 +1,22 @@
+// TODO: Consider using `winit` and `softbuffer` instead of `minifb` when
+// documentation for the latest version of `winit` is available.
+
 use minifb::{Scale, WindowOptions};
 
-use crate::errors::BlokError;
+use crate::{errors::BlokError, frame::Frame};
 
 /// A window.
 #[repr(transparent)]
 pub struct Window(minifb::Window);
 
 impl Window {
-    /// Creates a new `Window`. This function returns a [`BlokError`] if a
-    /// `Window` could not be created.
-    pub fn new() -> Result<Self, BlokError> {
+    /// Creates a new `Window` which will fit a [`Frame`]. This function returns
+    /// a [`BlokError`] if a `Window` could not be created.
+    pub fn new(frame: &Frame) -> Result<Self, BlokError> {
         let window = minifb::Window::new(
             "Blok",
-            320,
-            180,
+            frame.width(),
+            frame.height(),
             WindowOptions {
                 scale: Scale::X4,
                 ..Default::default()
@@ -28,8 +31,11 @@ impl Window {
         self.0.is_open()
     }
 
-    /// Updates the `Window`.
-    pub fn update(&mut self) {
-        self.0.update();
+    /// Updates the `Window` with a [`Frame`]. This function returns a
+    /// [`BlokError`] if the `Window` could not be updated.
+    pub fn update_with_frame(&mut self, frame: &Frame) -> Result<(), BlokError> {
+        self.0
+            .update_with_buffer(frame.as_slice(), frame.width(), frame.height())
+            .map_err(BlokError::from)
     }
 }
