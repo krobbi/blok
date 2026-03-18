@@ -7,14 +7,11 @@ possible before the game is over.
 
 ## Dependencies
 These libraries are used:
+* [image](https://crates.io/crates/image) - PNG image decoding
 * [minifb](https://crates.io/crates/minifb) - Window management and software
 frame buffer
+* [strum](https://crates.io/crates/strum) - Enum attributes
 * [thiserror](https://crates.io/crates/thiserror) - Error handling attributes
-<!--
-* [image](https://crates.io/crates/image) - PNG image decoding.
-input, and frame buffer rendering.
-* [rand](https://crates.io/crates/rand) - Random shuffling.
--->
 
 ## Credits
 Blok uses the color palette

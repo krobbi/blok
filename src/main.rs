@@ -3,11 +3,12 @@
 
 mod errors;
 mod frame;
+mod tiles;
 mod window;
 
 use std::process::ExitCode;
 
-use crate::{errors::BlokError, frame::Frame, window::Window};
+use crate::{errors::BlokError, frame::Frame, tiles::Tileset, window::Window};
 
 /// Runs Blok and returns an [`ExitCode`].
 fn main() -> ExitCode {
@@ -22,6 +23,7 @@ fn main() -> ExitCode {
 
 /// Runs Blok. This function returns a [`BlokError`] if a fatal error occurred.
 fn run() -> Result<(), BlokError> {
+    let _tileset = load_tileset()?;
     let frame = Frame::new();
     let mut window = Window::new(&frame)?;
 
@@ -30,4 +32,12 @@ fn run() -> Result<(), BlokError> {
     }
 
     Ok(())
+}
+
+/// Creates a new [`Tileset`] from static PNG image data. This function returns
+/// a [`BlokError`] if the [`Tileset`] could not be created.
+fn load_tileset() -> Result<Tileset, BlokError> {
+    static PNG_DATA: &[u8] = include_bytes!("../res/tileset.png");
+
+    Tileset::new(PNG_DATA)
 }
