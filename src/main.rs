@@ -5,6 +5,7 @@ mod bag;
 mod draw;
 mod errors;
 mod frame;
+mod inputs;
 mod shapes;
 mod tiles;
 mod window;
@@ -12,7 +13,14 @@ mod window;
 use std::process::ExitCode;
 
 use crate::{
-    bag::Bag, draw::DrawContext, errors::BlokError, frame::Frame, tiles::Tileset, window::Window,
+    bag::Bag,
+    draw::DrawContext,
+    errors::BlokError,
+    frame::Frame,
+    inputs::Input,
+    shapes::Shape,
+    tiles::{Tile, Tileset},
+    window::Window,
 };
 
 /// Runs Blok and returns an [`ExitCode`].
@@ -31,12 +39,21 @@ fn run() -> Result<(), BlokError> {
     let tileset = load_tileset()?;
     let mut window = Window::new()?;
     let mut frame = Frame::new();
-    let bag = Bag::new();
+
+    let mut bag = Bag::new();
+    let mut shape = None;
 
     while window.is_open() {
+        if window.is_input_pressed(Input::HardDrop) {
+            shape = Some(bag.next_shape());
+        }
+
         {
             let mut ctx = DrawContext::new(&tileset, &mut frame);
-            bag.debug_draw(16, 10, &mut ctx);
+            bag.debug_draw(16, 8, &mut ctx);
+            let tile = shape.map_or(Tile::Clear, Shape::block_tile);
+            ctx.draw_tile(tile, 16, 11);
+            ctx.draw_border(16, 11, 1, 1);
         }
 
         window.update_with_frame(&frame)?;

@@ -2,9 +2,9 @@
 // Documentation for the latest versions of `winit` is currently broken:
 // https://github.com/rust-windowing/winit/issues/4511
 
-use minifb::{Scale, WindowOptions};
+use minifb::{KeyRepeat, Scale, WindowOptions};
 
-use crate::{errors::BlokError, frame::Frame};
+use crate::{errors::BlokError, frame::Frame, inputs::Input};
 
 /// A window.
 #[repr(transparent)]
@@ -30,6 +30,11 @@ impl Window {
     /// Returns [`true`] if the `Window` is open.
     pub fn is_open(&self) -> bool {
         self.0.is_open()
+    }
+
+    /// Returns [`true`] if an [`Input`] is pressed.
+    pub fn is_input_pressed(&self, input: Input) -> bool {
+        self.0.is_key_pressed(input.key(), KeyRepeat::No)
     }
 
     /// Updates the `Window` with a [`Frame`]. This function returns a
