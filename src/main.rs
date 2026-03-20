@@ -36,7 +36,7 @@ fn run() -> Result<(), BlokError> {
     while window.is_open() {
         {
             let mut ctx = DrawContext::new(&tileset, &mut frame);
-            bag.debug_draw(&mut ctx);
+            bag.debug_draw(16, 10, &mut ctx);
         }
 
         window.update_with_frame(&frame)?;

@@ -54,6 +54,30 @@ pub enum Tile {
 
     /// An empty grid cell with a red ghost.
     RedGhost,
+
+    /// A top-left corner border.
+    TopLeftBorder,
+
+    /// A top edge border.
+    TopBorder,
+
+    /// A top-right corner border.
+    TopRightBorder,
+
+    /// A left edge border.
+    LeftBorder,
+
+    /// A right edge border.
+    RightBorder,
+
+    /// A bottom-left corner border.
+    BottomLeftBorder,
+
+    /// A bottom edge border.
+    BottomBorder,
+
+    /// A bottom-right corner border.
+    BottomRightBorder,
 }
 
 impl Tile {

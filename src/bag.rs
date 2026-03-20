@@ -22,15 +22,17 @@ impl Bag {
     }
 
     /// Draws the `Bag` with a [`DrawContext`] for debugging purposes.
-    pub fn debug_draw(&self, ctx: &mut DrawContext<'_, '_>) {
-        for (x, shape) in self.shapes.into_iter().enumerate() {
-            let tile = if x == usize::from(self.index) {
+    pub fn debug_draw(&self, x: usize, y: usize, ctx: &mut DrawContext<'_, '_>) {
+        ctx.draw_border(x, y, Shape::COUNT, 1);
+
+        for (index, shape) in self.shapes.into_iter().enumerate() {
+            let tile = if index == usize::from(self.index) {
                 shape.block_tile()
             } else {
                 shape.ghost_tile()
             };
 
-            ctx.draw_tile(tile, x, 0);
+            ctx.draw_tile(tile, x + index, y);
         }
     }
 }
