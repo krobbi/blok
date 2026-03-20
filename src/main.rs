@@ -4,16 +4,16 @@
 mod draw;
 mod errors;
 mod frame;
+mod shapes;
 mod tiles;
 mod window;
 
 use std::process::ExitCode;
 
+use strum::IntoEnumIterator as _;
+
 use crate::{
-    draw::DrawContext,
-    errors::BlokError,
-    frame::Frame,
-    tiles::{Tile, Tileset},
+    draw::DrawContext, errors::BlokError, frame::Frame, shapes::Shape, tiles::Tileset,
     window::Window,
 };
 
@@ -56,19 +56,7 @@ fn load_tileset() -> Result<Tileset, BlokError> {
 
 /// Draws a test scene with a [`DrawContext`].
 fn draw_test_scene(ctx: &mut DrawContext<'_, '_>) {
-    for y in 0..DrawContext::TILES_DOWN {
-        for x in 0..DrawContext::TILES_ACROSS {
-            ctx.draw_tile(Tile::Cell, x, y);
-        }
+    for (x, shape) in Shape::iter().enumerate() {
+        ctx.draw_tile(shape.block_tile(), x, 0);
     }
-
-    ctx.draw_tile(Tile::RedBlock, 1, 1);
-    ctx.draw_tile(Tile::OrangeBlock, 2, 1);
-    ctx.draw_tile(Tile::YellowBlock, 3, 1);
-
-    ctx.draw_tile(Tile::GreenBlock, 1, 2);
-    ctx.draw_tile(Tile::CyanBlock, 2, 2);
-    ctx.draw_tile(Tile::BlueBlock, 3, 2);
-
-    ctx.draw_tile(Tile::PurpleBlock, 2, 3);
 }
