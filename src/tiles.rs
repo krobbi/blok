@@ -34,10 +34,10 @@ pub enum Tile {
 
 impl Tile {
     /// A `Tile`'s width in pixels.
-    const WIDTH: usize = 8;
+    pub const WIDTH: usize = 8;
 
     /// A `Tile`'s height in pixels.
-    const HEIGHT: usize = Self::WIDTH;
+    pub const HEIGHT: usize = Self::WIDTH;
 
     /// A `Tile`'s pixel count.
     const PIXEL_COUNT: usize = Self::WIDTH * Self::HEIGHT;
@@ -93,26 +93,14 @@ impl Tileset {
         Ok(Self(buffer))
     }
 
-    /// Returns the `Tileset`'s [`Tile`] width in pixels.
+    /// Returns a reference to an array of [`u32`]s containing the `Tileset`'s
+    /// pixels for a [`Tile`] in 0RGB format.
     #[expect(dead_code, reason = "function should be used later")]
-    pub const fn tile_width(&self) -> usize {
-        let _ = self;
-        Tile::WIDTH
-    }
-
-    /// Returns the `Tileset`'s [`Tile`] height in pixels.
-    #[expect(dead_code, reason = "function should be used later")]
-    pub const fn tile_height(&self) -> usize {
-        let _ = self;
-        Tile::HEIGHT
-    }
-
-    /// Returns a slice of [`u32`]s containing a [`Tile`]'s pixels from the
-    /// `Tileset` in 0RGB format.
-    #[expect(dead_code, reason = "function should be used later")]
-    pub fn tile_pixels(&self, tile: Tile) -> &[u32] {
+    pub fn tile_pixels(&self, tile: Tile) -> &[u32; Tile::PIXEL_COUNT] {
         let pixel_index = usize::from(tile.id()) * Tile::PIXEL_COUNT;
-        &self.0[pixel_index..pixel_index + Tile::PIXEL_COUNT]
+        self.0[pixel_index..pixel_index + Tile::PIXEL_COUNT]
+            .try_into()
+            .expect("range length should match tile pixel count")
     }
 }
 
