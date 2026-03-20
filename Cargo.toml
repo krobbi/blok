@@ -9,6 +9,7 @@ categories = ["games"]
 publish = false
 
 [dependencies]
+fastrand = "2.3.0"
 image = { version = "0.25.10", default-features = false, features = ["png"] }
 minifb = "0.28.0"
 strum = { version = "0.28.0", features = ["derive"] }

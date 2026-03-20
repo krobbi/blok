@@ -7,9 +7,10 @@ possible before the game is over.
 
 ## Dependencies
 These libraries are used:
+* [fastrand](https://crates.io/crates/fastrand) - Random shuffling
 * [image](https://crates.io/crates/image) - PNG image decoding
-* [minifb](https://crates.io/crates/minifb) - Window management and software
-frame buffer
+* [minifb](https://crates.io/crates/minifb) - Window management, keyboard
+input, and software frame buffer
 * [strum](https://crates.io/crates/strum) - Enum attributes
 * [thiserror](https://crates.io/crates/thiserror) - Error handling attributes
 

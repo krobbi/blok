@@ -24,8 +24,9 @@ impl Bag {
     }
 
     /// Resets the `Bag`.
-    pub const fn reset(&mut self) {
+    pub fn reset(&mut self) {
         self.index = 0;
+        fastrand::shuffle(&mut self.shapes);
     }
 
     /// Returns the next [`Shape`] from the `Bag`.
