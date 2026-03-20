@@ -24,8 +24,8 @@ fn main() -> ExitCode {
 /// Runs Blok. This function returns a [`BlokError`] if a fatal error occurred.
 fn run() -> Result<(), BlokError> {
     let _tileset = load_tileset()?;
+    let mut window = Window::new()?;
     let frame = Frame::new();
-    let mut window = Window::new(&frame)?;
 
     while window.is_open() {
         window.update_with_frame(&frame)?;

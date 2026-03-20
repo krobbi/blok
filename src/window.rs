@@ -11,13 +11,13 @@ use crate::{errors::BlokError, frame::Frame};
 pub struct Window(minifb::Window);
 
 impl Window {
-    /// Creates a new `Window` which will fit a [`Frame`]. This function returns
-    /// a [`BlokError`] if a `Window` could not be created.
-    pub fn new(frame: &Frame) -> Result<Self, BlokError> {
+    /// Creates a new `Window`. This function returns a [`BlokError`] if a
+    /// `Window` could not be created.
+    pub fn new() -> Result<Self, BlokError> {
         let window = minifb::Window::new(
             "Blok",
-            frame.width(),
-            frame.height(),
+            Frame::WIDTH,
+            Frame::HEIGHT,
             WindowOptions {
                 scale: Scale::X4,
                 ..Default::default()
@@ -36,7 +36,7 @@ impl Window {
     /// [`BlokError`] if the `Window` could not be updated.
     pub fn update_with_frame(&mut self, frame: &Frame) -> Result<(), BlokError> {
         self.0
-            .update_with_buffer(frame.as_slice(), frame.width(), frame.height())
+            .update_with_buffer(frame.as_array(), Frame::WIDTH, Frame::HEIGHT)
             .map_err(BlokError::from)
     }
 }
