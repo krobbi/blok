@@ -1,5 +1,6 @@
-// TODO: Consider using `winit` and `softbuffer` instead of `minifb` when
-// documentation for the latest version of `winit` is available.
+// TODO: Consider using `winit` and `softbuffer` instead of `minifb`.
+// Documentation for the latest versions of `winit` is currently broken:
+// https://github.com/rust-windowing/winit/issues/4511
 
 use minifb::{Scale, WindowOptions};
 
