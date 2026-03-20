@@ -1,9 +1,9 @@
-use strum::EnumIter;
+use strum::{EnumCount, VariantArray};
 
 use crate::tiles::Tile;
 
 /// A shape.
-#[derive(Clone, Copy, EnumIter)]
+#[derive(Clone, Copy, EnumCount, VariantArray)]
 pub enum Shape {
     /// An 'I' shape.
     I,
@@ -38,6 +38,19 @@ impl Shape {
             Self::S => Tile::GreenBlock,
             Self::T => Tile::PurpleBlock,
             Self::Z => Tile::RedBlock,
+        }
+    }
+
+    /// Returns the `Shape`'s ghost [`Tile`].
+    pub const fn ghost_tile(self) -> Tile {
+        match self {
+            Self::I => Tile::CyanGhost,
+            Self::J => Tile::BlueGhost,
+            Self::L => Tile::OrangeGhost,
+            Self::O => Tile::YellowGhost,
+            Self::S => Tile::GreenGhost,
+            Self::T => Tile::PurpleGhost,
+            Self::Z => Tile::RedGhost,
         }
     }
 }

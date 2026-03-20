@@ -30,6 +30,30 @@ pub enum Tile {
 
     /// A red block.
     RedBlock,
+
+    /// A solid clear color.
+    Clear,
+
+    /// An empty grid cell with a cyan ghost.
+    CyanGhost,
+
+    /// An empty grid cell with a blue ghost.
+    BlueGhost,
+
+    /// An empty grid cell with a orange ghost.
+    OrangeGhost,
+
+    /// An empty grid cell with a yellow ghost.
+    YellowGhost,
+
+    /// An empty grid cell with a green ghost.
+    GreenGhost,
+
+    /// An empty grid cell with a purple ghost.
+    PurpleGhost,
+
+    /// An empty grid cell with a red ghost.
+    RedGhost,
 }
 
 impl Tile {
