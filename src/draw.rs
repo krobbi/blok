@@ -29,7 +29,11 @@ impl<'til, 'buf> DrawContext<'til, 'buf> {
 
     /// Draws a [`Tile`] at a position.
     pub fn draw_tile(&mut self, tile: Tile, x: usize, y: usize) {
-        let mut buffer_index = x * Tile::WIDTH + y * Tile::HEIGHT * Frame::WIDTH;
+        const X_OFFSET: usize = (Frame::WIDTH - DrawContext::TILES_ACROSS * Tile::WIDTH) / 2;
+        const Y_OFFSET: usize = (Frame::HEIGHT - DrawContext::TILES_DOWN * Tile::HEIGHT) / 2;
+
+        let mut buffer_index =
+            (y * Tile::HEIGHT + Y_OFFSET) * Frame::WIDTH + x * Tile::WIDTH + X_OFFSET;
 
         for tile_row in self.tileset.tile_pixels(tile).chunks_exact(Tile::WIDTH) {
             self.buffer[buffer_index..buffer_index + Tile::WIDTH].copy_from_slice(tile_row);
