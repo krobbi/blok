@@ -95,7 +95,6 @@ impl Tileset {
 
     /// Returns a reference to an array of [`u32`]s containing the `Tileset`'s
     /// pixels for a [`Tile`] in 0RGB format.
-    #[expect(dead_code, reason = "function should be used later")]
     pub fn tile_pixels(&self, tile: Tile) -> &[u32; Tile::PIXEL_COUNT] {
         let pixel_index = usize::from(tile.id()) * Tile::PIXEL_COUNT;
         self.0[pixel_index..pixel_index + Tile::PIXEL_COUNT]
