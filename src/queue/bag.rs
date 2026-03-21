@@ -43,16 +43,16 @@ impl Bag {
 
     /// Draws the `Bag` with a [`DrawContext`] for debugging purposes.
     pub fn debug_draw(&self, x: usize, y: usize, ctx: &mut DrawContext<'_, '_>) {
-        ctx.draw_border(x, y, Shape::COUNT, 1);
+        ctx.draw_border(x, y, 1, Shape::COUNT);
 
         for (index, shape) in self.shapes.into_iter().enumerate() {
-            let tile = if index == usize::from(self.index) {
+            let tile = if index >= usize::from(self.index) {
                 shape.block_tile()
             } else {
                 shape.ghost_tile()
             };
 
-            ctx.draw_tile(tile, x + index, y);
+            ctx.draw_tile(tile, x, y + index);
         }
     }
 }

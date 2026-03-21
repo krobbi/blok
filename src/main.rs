@@ -1,11 +1,11 @@
 // Don't open console window in Windows release builds.
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-mod bag;
 mod draw;
 mod errors;
 mod frame;
 mod inputs;
+mod queue;
 mod shapes;
 mod tiles;
 mod window;
@@ -13,11 +13,11 @@ mod window;
 use std::process::ExitCode;
 
 use crate::{
-    bag::Bag,
     draw::DrawContext,
     errors::BlokError,
     frame::Frame,
     inputs::Input,
+    queue::Queue,
     shapes::Shape,
     tiles::{Tile, Tileset},
     window::Window,
@@ -40,20 +40,20 @@ fn run() -> Result<(), BlokError> {
     let mut window = Window::new()?;
     let mut frame = Frame::new();
 
-    let mut bag = Bag::new();
+    let mut queue = Queue::new();
     let mut shape = None;
 
     while window.is_open() {
         if window.is_input_pressed(Input::HardDrop) {
-            shape = Some(bag.next_shape());
+            shape = Some(queue.next_shape());
         }
 
         {
             let mut ctx = DrawContext::new(&tileset, &mut frame);
-            bag.debug_draw(16, 8, &mut ctx);
+            ctx.draw_border(1, 1, 1, 1);
             let tile = shape.map_or(Tile::Clear, Shape::block_tile);
-            ctx.draw_tile(tile, 16, 11);
-            ctx.draw_border(16, 11, 1, 1);
+            ctx.draw_tile(tile, 1, 1);
+            queue.debug_draw(4, 1, &mut ctx);
         }
 
         window.update_with_frame(&frame)?;
