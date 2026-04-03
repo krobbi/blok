@@ -5,12 +5,15 @@ use winit::{
     window::{Window, WindowId},
 };
 
-/// Runs Blok.
-pub fn run() {
+use crate::errors::BlokError;
+
+/// Runs Blok. This function returns a [`BlokError`] if an error occurred.
+pub fn run() -> Result<(), BlokError> {
     let mut app = App::new();
-    let event_loop = EventLoop::new().unwrap();
+    let event_loop = EventLoop::new()?;
     event_loop.set_control_flow(ControlFlow::Poll);
-    event_loop.run_app(&mut app).unwrap();
+    event_loop.run_app(&mut app)?;
+    Ok(())
 }
 
 /// A Blok application.

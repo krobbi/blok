@@ -2,8 +2,17 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod app;
+mod errors;
 
-/// Runs Blok.
-fn main() {
-    app::run();
+use std::process::ExitCode;
+
+/// Runs Blok and returns an [`ExitCode`].
+fn main() -> ExitCode {
+    match app::run() {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(error) => {
+            error.print();
+            ExitCode::FAILURE
+        }
+    }
 }

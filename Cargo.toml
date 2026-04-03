@@ -9,6 +9,7 @@ categories = ["games"]
 publish = false
 
 [dependencies]
+thiserror = "2.0.18"
 winit = "0.30.13"
 
 [lints.rust]

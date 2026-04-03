@@ -7,6 +7,7 @@ possible before the game is over.
 
 ## Dependencies
 These libraries are used:
+* [thiserror](https://crates.io/crates/thiserror) - Error handling attributes
 * [winit](https://crates.io/crates/winit) - Window management
 
 ## Credits
