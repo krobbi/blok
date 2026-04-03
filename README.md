@@ -5,14 +5,9 @@ on the board. Points can be scored by filling and clearing a horizontal row of
 blocks on the board. The objective of the game is to score as many points as
 possible before the game is over.
 
-<!--
 ## Dependencies
 These libraries are used:
-* [image](https://crates.io/crates/image) - PNG image decoding.
-* [minifb](https://crates.io/crates/minifb) - Window management, keyboard
-input, and frame buffer rendering.
-* [rand](https://crates.io/crates/rand) - Random shuffling.
--->
+* [winit](https://crates.io/crates/winit) - Window management
 
 ## Credits
 Blok uses the color palette

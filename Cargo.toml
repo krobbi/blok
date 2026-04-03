@@ -9,6 +9,7 @@ categories = ["games"]
 publish = false
 
 [dependencies]
+winit = "0.30.13"
 
 [lints.rust]
 ambiguous_negative_literals = "warn"
