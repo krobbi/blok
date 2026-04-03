@@ -1,5 +1,6 @@
 use winit::{
     application::ApplicationHandler,
+    dpi::LogicalSize,
     event::WindowEvent,
     event_loop::{ActiveEventLoop, ControlFlow, EventLoop},
     window::{Window, WindowId},
@@ -42,7 +43,16 @@ impl App {
 
 impl ApplicationHandler for App {
     fn resumed(&mut self, event_loop: &ActiveEventLoop) {
-        match event_loop.create_window(Window::default_attributes()) {
+        const WIDTH: f64 = 320.0;
+        const HEIGHT: f64 = 180.0;
+        const SCALE: f64 = 4.0;
+
+        match event_loop.create_window(
+            Window::default_attributes()
+                .with_title("Blok")
+                .with_inner_size(LogicalSize::new(WIDTH * SCALE, HEIGHT * SCALE))
+                .with_min_inner_size(LogicalSize::new(WIDTH, HEIGHT)),
+        ) {
             Ok(window) => self.window = Some(window),
             Err(error) => self.log_error(event_loop, error),
         }
