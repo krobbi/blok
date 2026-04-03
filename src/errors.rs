@@ -1,7 +1,7 @@
 use std::io::{self, Write as _};
 
 use thiserror::Error;
-use winit::error::EventLoopError;
+use winit::error::{EventLoopError, OsError};
 
 /// An error caught by Blok.
 #[derive(Debug, Error)]
@@ -33,6 +33,18 @@ impl<E: Into<Kind>> From<E> for BlokError {
 #[derive(Debug, Error)]
 #[error("Error: {0}")]
 enum Kind {
+    /// A static error message.
+    Message(&'static str),
+
     /// An [`EventLoopError`].
     EventLoop(#[from] EventLoopError),
+
+    /// An [`OsError`].
+    Os(#[from] OsError),
+}
+
+impl From<&'static str> for Kind {
+    fn from(value: &'static str) -> Self {
+        Self::Message(value)
+    }
 }

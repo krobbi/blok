@@ -59,6 +59,7 @@ unneeded_field_pattern = "warn"
 unseparated_literal_suffix = "warn"
 string_slice = "warn"
 unused_trait_names = "warn"
+unwrap_used = "warn"
 
 [profile.release]
 strip = true

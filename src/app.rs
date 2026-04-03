@@ -13,7 +13,7 @@ pub fn run() -> Result<(), BlokError> {
     let event_loop = EventLoop::new()?;
     event_loop.set_control_flow(ControlFlow::Poll);
     event_loop.run_app(&mut app)?;
-    Ok(())
+    app.error.map_or(Ok(()), Err)
 }
 
 /// A Blok application.
@@ -21,6 +21,9 @@ pub fn run() -> Result<(), BlokError> {
 struct App {
     /// The [`Window`], if any.
     window: Option<Window>,
+
+    /// The first caught [`BlokError`], if any.
+    error: Option<BlokError>,
 }
 
 impl App {
@@ -28,15 +31,21 @@ impl App {
     fn new() -> Self {
         Self::default()
     }
+
+    /// Logs an error and exits an [`ActiveEventLoop`].
+    #[cold]
+    fn log_error<E: Into<BlokError>>(&mut self, event_loop: &ActiveEventLoop, error: E) {
+        self.error.get_or_insert_with(|| error.into());
+        event_loop.exit();
+    }
 }
 
 impl ApplicationHandler for App {
     fn resumed(&mut self, event_loop: &ActiveEventLoop) {
-        self.window = Some(
-            event_loop
-                .create_window(Window::default_attributes())
-                .unwrap(),
-        );
+        match event_loop.create_window(Window::default_attributes()) {
+            Ok(window) => self.window = Some(window),
+            Err(error) => self.log_error(event_loop, error),
+        }
     }
 
     fn window_event(
@@ -47,7 +56,14 @@ impl ApplicationHandler for App {
     ) {
         match event {
             WindowEvent::CloseRequested => event_loop.exit(),
-            WindowEvent::RedrawRequested => self.window.as_ref().unwrap().request_redraw(),
+            WindowEvent::RedrawRequested => {
+                let Some(window) = &self.window else {
+                    self.log_error(event_loop, "window is uninitialized");
+                    return;
+                };
+
+                window.request_redraw();
+            }
             _ => (),
         }
     }
