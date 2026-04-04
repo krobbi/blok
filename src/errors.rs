@@ -1,5 +1,6 @@
 use std::io::{self, Write as _};
 
+use pixels::TextureError;
 use thiserror::Error;
 use winit::error::{EventLoopError, OsError};
 
@@ -41,6 +42,12 @@ enum Kind {
 
     /// An [`OsError`].
     Os(#[from] OsError),
+
+    /// A [`pixels::Error`].
+    Pixels(#[from] pixels::Error),
+
+    /// A [`TextureError`].
+    Texture(#[from] TextureError),
 }
 
 impl From<&'static str> for Kind {
