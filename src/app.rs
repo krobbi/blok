@@ -35,8 +35,7 @@ impl App {
     /// Runs when the `App` is resumed from an [`ActiveEventLoop`]. This
     /// function returns a [`BlokError`] if the `App` could not be resumed.
     fn on_resumed(&mut self, event_loop: &ActiveEventLoop) -> Result<(), BlokError> {
-        let mut canvas = Canvas::new(event_loop)?;
-        draw_test_image(&mut canvas);
+        let canvas = Canvas::new(event_loop)?;
         self.canvas = Some(canvas);
         Ok(())
     }
@@ -89,19 +88,5 @@ impl ApplicationHandler for App {
         if let Err(error) = self.on_window_event(event_loop, &event) {
             self.log_error(event_loop, error);
         }
-    }
-}
-
-/// Draws a temporary test image on a [`Canvas`].
-fn draw_test_image(canvas: &mut Canvas) {
-    let width = usize::try_from(Canvas::WIDTH).expect("target should be at least 32-bit");
-
-    for (index, components) in canvas.frame_mut().chunks_exact_mut(4).enumerate() {
-        let (x, y) = (index % width, index / width);
-        let value = u8::try_from((x ^ y) & 0xff).expect("value should be wrapped to `u8`");
-        components[0] = value;
-        components[1] = if value & 1 != 0 { 0x40 } else { 0x00 };
-        components[2] = 0x80;
-        components[3] = 0xff;
     }
 }
