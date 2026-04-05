@@ -17,7 +17,7 @@ impl Canvas {
     /// A `Canvas`' channel count.
     pub const CHANNEL_COUNT: usize = 4;
 
-    /// A `Canvas`' clear color as pixels components in RGBA order.
+    /// A `Canvas`' clear color as pixel components in RGBA order.
     const CLEAR_COLOR: [u8; Self::CHANNEL_COUNT] = [0x0d, 0x07, 0x09, 0xff];
 
     /// Creates a new `Canvas` from an [`ActiveEventLoop`]. This function
