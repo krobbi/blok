@@ -1,5 +1,6 @@
 use std::io::{self, Write as _};
 
+use image::ImageError;
 use pixels::TextureError;
 use thiserror::Error;
 use winit::error::{EventLoopError, OsError};
@@ -39,6 +40,9 @@ enum Kind {
 
     /// An [`EventLoopError`].
     EventLoop(#[from] EventLoopError),
+
+    /// An [`ImageError`].
+    Image(#[from] ImageError),
 
     /// An [`OsError`].
     Os(#[from] OsError),

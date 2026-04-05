@@ -5,11 +5,13 @@ use winit::{
     window::WindowId,
 };
 
-use crate::{canvas::Canvas, errors::BlokError};
+use crate::{canvas::Canvas, draw::DrawContext, errors::BlokError, tiles::Tileset, world::World};
 
 /// Runs Blok. This function returns a [`BlokError`] if an error occurred.
 pub fn run() -> Result<(), BlokError> {
-    let mut app = App::new();
+    let tileset = Tileset::new(tileset_png_data())?;
+    let world = World::new();
+    let mut app = App::new(world, tileset);
     let event_loop = EventLoop::new()?;
     event_loop.set_control_flow(ControlFlow::Poll);
     event_loop.run_app(&mut app)?;
@@ -17,8 +19,13 @@ pub fn run() -> Result<(), BlokError> {
 }
 
 /// A Blok application.
-#[derive(Default)]
 struct App {
+    /// The [`World`].
+    world: World,
+
+    /// The [`Tileset`].
+    tileset: Tileset,
+
     /// The [`Canvas`], if any.
     canvas: Option<Canvas>,
 
@@ -27,9 +34,14 @@ struct App {
 }
 
 impl App {
-    /// Creates a new `App`.
-    fn new() -> Self {
-        Self::default()
+    /// Creates a new `App` from a [`World`] and a [`Tileset`].
+    const fn new(world: World, tileset: Tileset) -> Self {
+        Self {
+            world,
+            tileset,
+            canvas: None,
+            error: None,
+        }
     }
 
     /// Runs when the `App` is resumed from an [`ActiveEventLoop`]. This
@@ -55,7 +67,9 @@ impl App {
             }
             WindowEvent::CloseRequested => event_loop.exit(),
             WindowEvent::RedrawRequested => {
-                let canvas = self.canvas.as_ref().ok_or("canvas is uninitialized")?;
+                let canvas = self.canvas.as_mut().ok_or("canvas is uninitialized")?;
+                let mut draw = DrawContext::new(&self.tileset, canvas.buffer_mut());
+                self.world.draw(&mut draw);
                 canvas.render()?;
             }
             _ => (),
@@ -89,4 +103,11 @@ impl ApplicationHandler for App {
             self.log_error(event_loop, error);
         }
     }
+}
+
+/// Returns a slice of PNG image data for a [`Tileset`].
+const fn tileset_png_data() -> &'static [u8] {
+    static PNG_DATA: &[u8] = include_bytes!("../res/tileset.png");
+
+    PNG_DATA
 }

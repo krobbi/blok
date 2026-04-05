@@ -8,10 +8,10 @@ use crate::errors::BlokError;
 pub struct Canvas(Pixels<'static>);
 
 impl Canvas {
-    /// A `Canvas`' width in graphical pixels.
+    /// A `Canvas`' width in pixels.
     pub const WIDTH: usize = 320;
 
-    /// A `Canvas`' height in graphical pixels.
+    /// A `Canvas`' height in pixels.
     pub const HEIGHT: usize = 180;
 
     /// A `Canvas`' channel count.
@@ -58,6 +58,12 @@ impl Canvas {
     pub fn resize(&mut self, width: u32, height: u32) -> Result<(), BlokError> {
         self.0.resize_surface(width, height)?;
         Ok(())
+    }
+
+    /// Returns the `Canvas`' frame buffer as a slice of pixel components in
+    /// RGBA order.
+    pub fn buffer_mut(&mut self) -> &mut [u8] {
+        self.0.frame_mut()
     }
 
     /// Renders the `Canvas`. This function returns a [`BlokError`] if the

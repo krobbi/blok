@@ -3,7 +3,10 @@
 
 mod app;
 mod canvas;
+mod draw;
 mod errors;
+mod tiles;
+mod world;
 
 use std::process::ExitCode;
 

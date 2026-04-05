@@ -7,7 +7,9 @@ possible before the game is over.
 
 ## Dependencies
 These libraries are used:
+* [image](https://crates.io/crates/image) - Image decoding
 * [pixels](https://crates.io/crates/pixels) - Frame buffer rendering
+* [strum](https://crates.io/crates/strum) - Enum attributes
 * [thiserror](https://crates.io/crates/thiserror) - Error handling attributes
 * [winit](https://crates.io/crates/winit) - Window management
 
